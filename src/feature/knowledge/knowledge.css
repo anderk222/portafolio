@@ -1,0 +1,16 @@
+.bg-t{
+    background-color: rgba(114, 150, 181, 0.374)
+}
+
+.gradiant-1{
+    background: rgb(2,0,36);
+background: linear-gradient(47deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 37%, rgba(0,212,255,1) 81%);
+}
+
+.my-blur{
+    background: rgba(26, 26, 26, 0.53);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(23px);
+    -webkit-backdrop-filter: blur(9.3px);
+}

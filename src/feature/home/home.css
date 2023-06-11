@@ -1,0 +1,39 @@
+.welcome{
+    white-space: nowrap;
+    width: 7.8ch;
+    border-right:4px  solid ;
+    overflow: hidden;
+    animation: typing 4s,
+    barra 600ms infinite;
+
+}
+
+@keyframes typing {
+
+    from {width: 0}
+    
+}
+
+@keyframes barra{
+
+50%{ border-color : transparent }
+    
+}
+
+.about{
+    
+    animation: vanish 14s;
+
+}
+
+@keyframes vanish {
+
+    from{ color : transparent}
+    
+}
+
+.transition-float{
+
+    transition: all  2s;
+
+}
