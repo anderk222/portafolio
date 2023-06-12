@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button, Container, Header, Icon } from 'semantic-ui-react'
+import NewCategory from '../../category/NewCategory';
 import FilterAcordion from './FilterAcordion';
 
 
@@ -17,7 +18,9 @@ const HeaderTool = () => {
         <Link to={'form'} >
         <Icon name='plus' />
         </Link>
+        
       </Button>
+      <NewCategory />
       
       <FilterAcordion />
       </div>
