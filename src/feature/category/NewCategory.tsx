@@ -1,7 +1,9 @@
-import { Formik, FormikProps, FormikValues } from 'formik';
+import { Formik, FormikProps, FormikValues, Form, Field } from 'formik';
 import { useRef } from 'react';
-import { Button, Form, Modal } from 'semantic-ui-react';
+import { Button, Modal, FormInput, Form as UIForm, FormGroup } from 'semantic-ui-react';
 import { useBoolean } from '../../hooks/useBoolean';
+import { Category, category_schema } from './category';
+import { save_category } from './category.api';
 
 
 const NewCategory = () => {
@@ -26,28 +28,32 @@ const NewCategory = () => {
 
             <Modal.Content>
                 <Formik
-                    initialValues={{}}
-                    onSubmit={() => { desactive() }}
+                    initialValues={{
+                        id: 0,
+                        name: ''
+                    }}
+                    onSubmit={handleSubmit}
                     innerRef={formRef}
+                    validationSchema={category_schema}
 
                 >
-                    {({ errors, values, status }) => (
-                        <Form>
-                            <Form.Field>
-                                <label htmlFor="name">Category name</label>
-                                <input
-                                    name='name'
-                                    id='name'
-                                    placeholder="Write the category name"
-                                />
+                    {({ errors, values, isSubmitting, touched }) => (
+                        <Form className='ui form' >
 
-                            </Form.Field>
+                            <UIForm.Field >
+                                <label htmlFor="name">Category name</label>
+                                <Field  placehorlder='' name="name" />
+                                {typeof errors.name == 'string' && touched.name &&
+                                    <p className='text-xs text-red-500' >{errors.name}</p>
+                                }
+                            </UIForm.Field>
 
                             <Modal.Actions>
                                 <Button
-                                    onClick={() => formRef.current?.submitForm()}
+                                    type='submit'
                                     content='Save'
                                     color='green'
+                                    loading={isSubmitting}
                                 />
                                 <Button
                                     content='Cancel'
@@ -60,10 +66,22 @@ const NewCategory = () => {
                     )}
                 </Formik>
             </Modal.Content>
-
-
         </Modal>
     )
+
+    async function handleSubmit(values: FormikValues) {
+        try {
+
+            await save_category(values as Category);
+            desactive();
+
+        } catch (err) {
+
+            alert((err as Error).message)
+
+        }
+
+    }
 }
 
 export default NewCategory;

@@ -4,3 +4,8 @@ export type Pagination<T> ={
     total: number
     data:  T[]
 }
+
+export type paginable = {
+    page : number | string
+    count : number | string
+}

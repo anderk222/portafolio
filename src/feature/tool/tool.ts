@@ -1,4 +1,5 @@
 import { number, object, string } from 'yup'
+import { category_schema, Category } from '../category/category';
 
 export interface Tool {
     id:       number;
@@ -7,21 +8,11 @@ export interface Tool {
     img : string
 }
 
-export interface Category {
-    id: number;
-    name : string
-}
 
-export const category_schema = object({
-
-    id : number(),
-    url : string().required().min(5)
-
-})
 export const tool_schema = object({
     id : number(),
     name : string().min(2).max(40).required(),
-    category : category_schema,
+    category : object({id : number().required()}),
     img : string().required().min(5)
 
 });

@@ -24,8 +24,14 @@ export function useFetch<T>(callback?: CallBack): UseFetch<T> {
 
         setState({ status: 'loading' });
 
-        callback().then((res) => res.json())
+        callback().then((res) =>{ 
+
+            if(!res.ok) throw new Error(res.statusText)
+
+            return res.json();
+        })
             .then((parse: T) => {
+                
                 setState({ data: parse, status: 'ok' })
             })
             .catch(err => {
@@ -39,10 +45,12 @@ export function useFetch<T>(callback?: CallBack): UseFetch<T> {
 export type UseFetch<T> = {
     error?: string,
     data?: T,
-    status: string,
+    status: status
     run: (callback: CallBack) => void
 };
 
-type state<T> = { error?: string, data?: T, status: string }
+type state<T> = { error?: string, data?: T, status: status }
+
+type status = 'error' | 'ok' | 'loading' | 'initial'
 
 export type CallBack = () => Promise<Response>

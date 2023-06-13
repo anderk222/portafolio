@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import { Button, Card } from "semantic-ui-react"
+import { Tool } from '../tool';
 
-const ToolCard = ({ handlerEdit }:props) => {
-
-    const navigate = useNavigate();
+const ToolCard = ({ handlerEdit, tool }:props) => {
 
     return (
         <div>
             <Card
-                header='ReactJS'
+                header={tool.name}
                 meta='Friend'
-                extra={<Button onClick={()=>handlerEdit(0)} size="small" content='Editar' primary />}
+                image={tool.img}
+                extra={<Button onClick={()=>handlerEdit(tool.id)} size="small" content='Editar' primary />}
             />
         </div>
     )
@@ -18,7 +17,8 @@ const ToolCard = ({ handlerEdit }:props) => {
 
 type props = {
 
-    handlerEdit(id : number):void
+    handlerEdit(id : number):void,
+    tool : Tool
 
 }
 

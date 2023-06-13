@@ -1,13 +1,42 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, DropdownProps } from 'semantic-ui-react';
+import { useFetch } from '../hooks/useFetch';
+import { Pagination } from '../models/response';
+import { Category } from '../feature/category/category';
+import { by_name } from '../feature/category/category.api';
+import { DropdownOpt } from '../models/semantic-ui';
 
-const SelectCategory = () => {
+const SelectCategory = ({ onChange } : props) => {
 
     const [ search, setSearch ] = useState('');
 
-    const filtered = useMemo(() => [
-        { key: 'Arabic', text: 'Arabic', value: 'Arabic' }
-    ], [search]);
+    const { data, run, status } = useFetch<Pagination<Category>>();
+
+    const [ filtered, setFiltered ] = useState<DropdownOpt[]>([]);
+
+    useEffect(()=>{
+
+        run(()=>by_name(search));
+
+    }, [search]);
+
+
+    useEffect(()=>{
+
+        if(status != 'ok') return;
+
+        let converted : DropdownOpt[] = data!.data.map(v =>{
+            return { 
+                key:v.id , value : v.id, text: v.name 
+            }
+        })
+
+        setFiltered(converted);
+        
+
+    }, [data]);
+
+
 
     useEffect(()=>{},[search]);
 
@@ -18,22 +47,25 @@ const SelectCategory = () => {
             search
             selection
             options={filtered}
-            onSearchChange={handlerChange}
+            onSearchChange={handleSearchrChange}
             text='Select Language'
-            onChange={()=>{}}
+             onChange={onChange}
         />
     );
 
-    function handlerChange(event : React.SyntheticEvent<HTMLElement, Event>){
+    function handleSearchrChange(event : React.SyntheticEvent<HTMLElement, Event>){
 
-        const value = (event.target as HTMLInputElement).value; 
+
+        const value = (event.target as HTMLInputElement).value;
+        
+        setSearch(value);
 
     };
 
 }
 
 type props = {
-    onSearchChange(event : React.SyntheticEvent<HTMLElement, Event>):void
+    onChange( event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps):void | undefined
 }
 
 export default SelectCategory
