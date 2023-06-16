@@ -3,11 +3,12 @@ import { Button, Form as UIForm, Icon, Label, Modal } from 'semantic-ui-react'
 import { UseBoolean } from '../../../hooks/useBoolean';
 import SelectCategory from '../../../shared/SelectCategory';
 import { tool_schema } from '../tool';
-import { save_tool, get_tool } from '../tool.api';
-import { useParams } from 'react-router-dom';
+import { save_tool, get_tool, update_tool } from '../tool.api';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import { Tool } from '../tool';
 import { useEffect } from 'react';
+import { remove_query } from '../../../utils/QueryParams';
 
 const FormModal = ({ toggle }: props) => {
 
@@ -41,20 +42,34 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
   const { run,status , data  } = useFetch<Tool>();
 
 
-  const { current } = useParams();
+  const [ params, setSearchParams ] = useSearchParams();
+
+  let current = params.get('current');
 
   useEffect(()=>{
 
+    console.log(current);
+
     if(!current) return;
 
-    run(()=>get_tool(current));
+    run(()=>get_tool(current!));
 
-  },[current])
+  },[params.get('current')])
+
+  useEffect(()=>{},[data])
 
 
   return (
     <Formik
-      initialValues={data!}
+      initialValues={data || {
+        id:0,
+        name: '',
+        category : {
+          id : 0
+        },
+        img : ''
+        
+      }}
       enableReinitialize={true}
       onSubmit={handleSubmit}
       validationSchema={tool_schema}
@@ -83,9 +98,9 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
             }
 
           </UIForm.Field>
-          <Button.Group className='flex gap-2' >
-            <Button  loading={isSubmitting} color="green" type='submit'>Save</Button>
-            <Button onClick={desactive} color="black">
+          <Button.Group className=' w-fit ' >
+            <Button  loading={isSubmitting || status == 'loading'} color="green" type='submit'>Save</Button>
+            <Button onClick={cancel} color="black">
               Cancel
             </Button>
           </Button.Group>
@@ -97,15 +112,23 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
   async function handleSubmit(value: any) {
 
     try{
-      await save_tool(value);
+      if(!current) await save_tool(value);
+      else await update_tool(value);
       desactive()
 
     }catch(err){
       alert((err as Error).message)
-    }
-
+    };
 
   };
+
+  function cancel(){
+
+    setSearchParams(remove_query(params, 'current')); 
+
+    desactive();
+  }
+
 
 }
 

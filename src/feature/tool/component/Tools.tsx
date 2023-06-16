@@ -4,28 +4,27 @@ import PaginationPortafolio from "../../../shared/PaginationPortafolio";
 import FormModal from "./FormModal";
 import ToolCard from "./ToolCard";
 import { useFetch } from '../../../hooks/useFetch';
-import { get_tools } from '../tool.api';
-import { useParams, useSearchParams } from "react-router-dom";
-import { paginable } from "../../../models";
+import { get_tools, search_tools } from '../tool.api';
+import { useSearchParams } from "react-router-dom";
 import { Pagination } from '../../../models/response';
 import { Tool } from "../tool";
+import { add_query } from '../../../utils/QueryParams';
+import FullLoading from '../../../shared/FullLoading';
 
 const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
 
-  const { run, status, data, error } = useFetch<Pagination<Tool>>((() => get_tools({ count: 10, page: 0 })))
+  const { run, status, data, error } = useFetch<Pagination<Tool>>((() => get_tools('')))
 
-  const { page, count } = useParams();
-
-  const [params, setParams] = useSearchParams();
+  const [queryParams, setQueryParams] = useSearchParams();
 
   const handlerEdit = useCallback((id: number) => {
 
-    setParams({
-      page: page || '0',
-      count: count || '10',
+    setQueryParams(add_query(queryParams, {
+
       current: id.toString()
-    }, { replace: true });
+
+    }), { replace: true });
 
     toggle.active();
 
@@ -33,17 +32,19 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
   useEffect(() => {
 
-    let paginable: paginable = {
-      page: page || 0,
-      count: count || 10
-
+    let search = {
+      name: queryParams.get('name'),
+      category: queryParams.get('category')
     }
 
-    run(() => get_tools(paginable));
+    if (!search.name && !search.category) run(() => get_tools(queryParams.toString()))
+    else run(() => search_tools(queryParams.toString()));
 
-  }, [page, count])
-
-
+  }, [
+    queryParams.get('page'),
+    queryParams.get('name'),
+    queryParams.get('category')
+  ]);
 
   return (
     <div className='flex gap-2 p-2 flex-wrap'>
@@ -52,9 +53,12 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
       )
       )}
 
-      <div className="flex w-full justify-center" >
-        <PaginationPortafolio />
-      </div>
+      {status == 'ok' &&
+        <div className="flex w-full justify-center" >
+          <PaginationPortafolio />
+        </div>
+      }
+      {status == 'loading' && <FullLoading/> }
       <FormModal toggle={toggle} />
     </div>
   );

@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
+import FullLoading from '../shared/FullLoading'
 import ProfileImage from '../shared/ProfileImage'
 import DropDownSideBar from './DropDownSideBar'
 
@@ -17,7 +18,7 @@ const Header = () => {
             </li>
         </ul>
     </nav>
-    <Suspense fallback={<p>loading</p>} >
+    <Suspense fallback={<FullLoading />} >
      <Outlet />
      </Suspense>
     </div>

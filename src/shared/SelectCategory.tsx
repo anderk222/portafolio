@@ -48,7 +48,7 @@ const SelectCategory = ({ onChange } : props) => {
             selection
             options={filtered}
             onSearchChange={handleSearchrChange}
-            text='Select Language'
+            text='Select Category'
              onChange={onChange}
         />
     );
