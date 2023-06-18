@@ -9,6 +9,7 @@ import { add_query } from '../../../utils/QueryParams';
 import { Pagination } from '../../../models/response';
 import { khowledge } from '../khowledge';
 import { get_knowledges, search_knowledges } from '../khowledge.api';
+import FullLoading from '../../../shared/FullLoading';
 
 const Skills = ({ toggle }:{ toggle : UseBoolean }) => {
 
@@ -46,22 +47,18 @@ const Skills = ({ toggle }:{ toggle : UseBoolean }) => {
 
     return (
         <Container>
-        <Segment>
+        
+        {status == 'ok' &&<Segment>
            
                 <Item.Group divided className='w-full'  >
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
-                    <ItemKnowledge />
+                 {data?.data.map((v,k)=><ItemKnowledge key={k} khowledge={v} />)}
                 </Item.Group>
 
-           
         </Segment>
-        <PaginationPortafolio />
+}
+      { status == 'ok' && <PaginationPortafolio /> }
+      { status == 'loading' && <FullLoading /> }
+
         </Container>
     )
 }

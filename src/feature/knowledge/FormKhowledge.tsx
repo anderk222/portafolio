@@ -1,8 +1,32 @@
 import { Formik } from "formik";
 import { Button, Container, Form, Header, Icon, Label, LabelGroup, Segment } from "semantic-ui-react";
+import { khowledge } from "./khowledge";
+import { useFetch } from "../../hooks/useFetch";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { get_skill } from "./khowledge.api";
 
 
 const FormKhowledge = () => {
+
+  const { run,status , data  } = useFetch<khowledge>();
+
+  const { id } = useParams();
+
+
+  const [ params, setSearchParams ] = useSearchParams();
+
+
+  useEffect(()=>{
+
+
+    if(!id) return;
+
+    run(()=>get_skill(id));
+
+  },[id])
+
+  useEffect(()=>{},[data])
   return (
     <Container >
       <Segment color="blue" >

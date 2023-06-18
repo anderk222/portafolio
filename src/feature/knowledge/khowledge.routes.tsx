@@ -11,7 +11,7 @@ const khowledge_routes: RouteObject[] = [
         element: <Khowledge />
     },
     {
-        path: 'form',
+        path: ':id',
         element: <FormKhowledge />
     }
 
