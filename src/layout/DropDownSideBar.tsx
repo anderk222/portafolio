@@ -9,11 +9,11 @@ const DropDownSideBar = () => {
   return (
     <Dropdown text='Main'>
     <Dropdown.Menu>
-      <Dropdown.Item onClick={()=>navigate('/')} icon='home' text='Home' />
+      <Dropdown.Item onClick={()=>navigate('/home')} icon='home' text='Home' />
       <Dropdown.Item onClick={()=>navigate('/knowledge')} icon='book' text='khowledge' />
       <Dropdown.Item onClick={()=>navigate('/proyect')} icon='bar' text='Proyects' />
       <Dropdown.Item onClick={()=>navigate('/tool')} icon='wrench' text='Tools' />
-      <Dropdown.Item icon='user' text='About me' />
+      <Dropdown.Item onClick={()=>navigate('/')} icon='user' text='Resume' />
       <ContactModal />
     </Dropdown.Menu>
   </Dropdown>

@@ -4,6 +4,7 @@ import Root from "./layout/Root";
 import proyect_routes from "./feature/proyect/proyect.router";
 import khowledge_routes from "./feature/knowledge/khowledge.routes";
 import tool_routes from "./feature/tool/tool.routes";
+import resume_routes from "./feature/resume/resume.router";
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: '',
+        path: 'home',
         element: <HomePage />,
       },
       {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path : 'tool',
         children : tool_routes
+      },
+      {
+        path : '',
+        children : resume_routes
       }
     ],
   },

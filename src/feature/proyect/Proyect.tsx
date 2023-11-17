@@ -5,8 +5,6 @@ import Proyects from './Proyects';
 
 const Proyect = () => {
 
-    
-
 
     return (
         <div className="w-full flex justify-center h-screen" >
