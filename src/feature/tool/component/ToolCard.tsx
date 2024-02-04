@@ -1,7 +1,7 @@
 import { Button, Card } from "semantic-ui-react"
 import { Tool } from '../tool';
 
-const ToolCard = ({ handlerEdit, tool }:props) => {
+const ToolCard = ({ onClickEdit, tool, onClickDelete }: props) => {
 
     return (
         <div>
@@ -9,7 +9,10 @@ const ToolCard = ({ handlerEdit, tool }:props) => {
                 header={tool.name}
                 meta='Friend'
                 image={tool.img}
-                extra={<Button onClick={()=>handlerEdit(tool.id)} size="small" content='Editar' primary />}
+                extra={<>
+                    <Button onClick={() => onClickEdit(tool.id)} size="small" content='Editar' primary />
+                    <Button onClick={() => onClickDelete(tool.id)} size="small" content='Elminar' negative />
+                </>}
             />
         </div>
     )
@@ -17,8 +20,9 @@ const ToolCard = ({ handlerEdit, tool }:props) => {
 
 type props = {
 
-    handlerEdit(id : number):void,
-    tool : Tool
+    onClickEdit(id: number): void,
+    onClickDelete(id: number):void 
+    tool: Tool
 
 }
 

@@ -30,9 +30,7 @@ const FormSearch = () => {
               <label>Category</label>
               <SelectCategory onChange={(_,v)=>setFieldValue('category', v.value)} />
             </UIForm.Field>
-            <UIForm.Field>
-              <Checkbox label='I agree to the Terms and Conditions' />
-            </UIForm.Field>
+   
             <Button type='submit'>Search</Button>
           </Form>
 

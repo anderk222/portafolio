@@ -2,6 +2,9 @@
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
+    "paths": {
+      "@portafolio":["./src/*"]
+    },
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },

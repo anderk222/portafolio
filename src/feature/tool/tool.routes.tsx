@@ -1,9 +1,9 @@
 import { lazy } from "react";
 import { RouteObject } from 'react-router-dom';
 
-const Tool = lazy(() => import('./Tool'));
+const Tool = lazy(() => import('./pages/Tool'));
 
-const tool_routes: RouteObject[] = [
+const TOOL_ROUTES: RouteObject[] = [
     {
         path: '',
         element: <Tool />
@@ -11,4 +11,4 @@ const tool_routes: RouteObject[] = [
 
 ];
 
-export default tool_routes;
+export default TOOL_ROUTES;

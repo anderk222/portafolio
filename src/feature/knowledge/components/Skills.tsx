@@ -1,66 +1,108 @@
-import { Container, Item, Segment } from 'semantic-ui-react'
+import { Confirm, Container, Item, Segment } from 'semantic-ui-react'
 import PaginationPortafolio from '../../../shared/PaginationPortafolio';
 import ItemKnowledge from './ItemKnowledge'
-import { UseBoolean } from '../../../hooks/useBoolean';
+import { UseBoolean, useBoolean } from '../../../hooks/useBoolean';
 import { useFetch } from '../../../hooks/useFetch';
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { add_query } from '../../../utils/QueryParams';
 import { Pagination } from '../../../models/response';
-import { khowledge } from '../khowledge';
-import { get_knowledges, search_knowledges } from '../khowledge.api';
+import { khowledge } from '../model/khowledge';
 import FullLoading from '../../../shared/FullLoading';
+import { deleteSkill, getKnowledges, getKnowledgesByToken, searchKnowledges, searchKnowledgesByToken } from '../service/khowledge.api';
+import { useAuthContext } from '../../../context/AuthProvider';
 
-const Skills = ({ toggle }:{ toggle : UseBoolean }) => {
+const Skills = ({ toggle }: { toggle: UseBoolean }) => {
 
-    const { run, status, data, error } = useFetch<Pagination<khowledge>>((() => get_knowledges('')))
+  const { run, status, data, error, setData } = useFetch<Pagination<khowledge>>();
 
-    const [queryParams, setQueryParams] = useSearchParams();
-  
-    const handlerEdit = useCallback((id: number) => {
-  
-      setQueryParams(add_query(queryParams, {
-  
-        current: id.toString()
-  
-      }), { replace: true });
-  
-      toggle.active();
-  
-    }, []);
-  
-    useEffect(() => {
-  
-      let search = {
-        name: queryParams.get('name'),
-        category: queryParams.get('category')
+  const [queryParams, setQueryParams] = useSearchParams();
+
+  const { toggle: toggleDelete, boolean } = useBoolean();
+
+  const [idDelete, setIdDelete] = useState(0);
+
+  const auth = useAuthContext();
+
+  useEffect(() => {
+
+    search();
+
+  }, [
+    queryParams.get('page'),
+    queryParams.get('name'),
+    queryParams.get('category')
+  ]);
+
+  useEffect(() => { idDelete });
+
+  useEffect(()=>{},[boolean]);
+
+  return (
+    <Container>
+      <Confirm open={boolean} 
+      onConfirm={()=>handlerDelete(idDelete)} 
+      onCancel={toggleDelete} />
+
+      {status == 'ok' && <Segment>
+
+        <Item.Group divided className='w-full'>
+          {data?.data.map((v, k) =>
+            <ItemKnowledge key={k} khowledge={v} onDelete={handlerOpenDelete} />
+          )}
+        </Item.Group>
+
+      </Segment>
       }
+      {status == 'ok' && <PaginationPortafolio pages={data?.totalPages} />}
+      {status == 'loading' && <FullLoading />}
+
+    </Container>
+  );
+
+
+  function search(){
+
+    let action : (query: string)=>Promise<Response>;
+
+    let isAuthenticated = auth.isAuthenticated();
+
+
+    if (!queryParams.get('name') && !queryParams.get('category')){
+
+      if(isAuthenticated) action = getKnowledgesByToken;
+      else action = getKnowledges;
+
+    }else{
+
+      if(isAuthenticated) action =searchKnowledgesByToken;
+      else action = searchKnowledges;
+
+    }
+
+    run(() => action(queryParams.toString()))
   
-      if (!search.name && !search.category) run(() => get_knowledges(queryParams.toString()))
-      else run(() => search_knowledges(queryParams.toString()));
-  
-    }, [
-      queryParams.get('page'),
-      queryParams.get('name'),
-      queryParams.get('category')
-    ]);
+  }
 
-    return (
-        <Container>
-        
-        {status == 'ok' &&<Segment>
-           
-                <Item.Group divided className='w-full'  >
-                 {data?.data.map((v,k)=><ItemKnowledge key={k} khowledge={v} />)}
-                </Item.Group>
+  function handlerOpenDelete(id: number) {
 
-        </Segment>
-}
-      { status == 'ok' && <PaginationPortafolio /> }
-      { status == 'loading' && <FullLoading /> }
+    setIdDelete(id);
 
-        </Container>
-    )
+    toggleDelete();
+
+  }
+
+  async function handlerDelete(id : number){
+
+    await deleteSkill(id);
+
+    setData({ ...data!, data: data!.data.filter(v => v.id != id) });
+
+    toggleDelete();
+
+  }
 }
 
-export default Skills
+
+
+export default Skills;

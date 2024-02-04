@@ -1,7 +1,7 @@
 export type Pagination<T> ={
     page:  number
     count: number
-    totalPage : number
+    totalPages : number
     total: number
     data:  T[]
 }

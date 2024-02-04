@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Dropdown, DropdownProps } from 'semantic-ui-react';
 import { useFetch } from '../hooks/useFetch';
 import { Pagination } from '../models/response';
-import { Category } from '../feature/category/category';
-import { by_name } from '../feature/category/category.api';
+import { Category } from '../feature/category/model/category';
+import { by_name } from '../feature/category/service/category.api';
 import { DropdownOpt } from '../models/semantic-ui';
 
 const SelectCategory = ({ onChange } : props) => {
@@ -15,6 +15,8 @@ const SelectCategory = ({ onChange } : props) => {
     const [ filtered, setFiltered ] = useState<DropdownOpt[]>([]);
 
     useEffect(()=>{
+
+        if(!search) return;
 
         run(()=>by_name(search));
 
@@ -47,6 +49,7 @@ const SelectCategory = ({ onChange } : props) => {
             search
             selection
             options={filtered}
+            value={search}
             onSearchChange={handleSearchrChange}
             text='Select Category'
              onChange={onChange}
@@ -54,7 +57,6 @@ const SelectCategory = ({ onChange } : props) => {
     );
 
     function handleSearchrChange(event : React.SyntheticEvent<HTMLElement, Event>){
-
 
         const value = (event.target as HTMLInputElement).value;
         

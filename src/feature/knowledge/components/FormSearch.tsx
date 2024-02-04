@@ -1,7 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Checkbox, Form as UIForm } from 'semantic-ui-react'
+import { Button, Form as UIForm } from 'semantic-ui-react'
 import { SearchArgs } from '../../../models';
 import { add_query } from '../../../utils/QueryParams';
 import SelectCategory from '../../../shared/SelectCategory';
@@ -37,7 +37,6 @@ const FormSearch = () => {
   );
 
   function onSubmit(values: SearchArgs, _: any) {
-
 
     setQuerys(add_query(querys, { name: values.name, category: values.category.toString() }))
 

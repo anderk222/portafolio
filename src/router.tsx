@@ -1,12 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "./feature/home/HomePage";
+import HomePage from "./feature/home/pages/HomePage";
 import Root from "./layout/Root";
-import proyect_routes from "./feature/proyect/proyect.router";
 import khowledge_routes from "./feature/knowledge/khowledge.routes";
-import tool_routes from "./feature/tool/tool.routes";
-import resume_routes from "./feature/resume/resume.router";
+import PROYECT_ROUTES from "./feature/proyect/proyect.routes";
+import TOOL_ROUTES from "./feature/tool/tool.routes";
+import RESUME_ROUTES from "./feature/resume/resume.routes";
+import { AUTH_ROUTES } from "./feature/auth/auth.routes";
 
 const router = createBrowserRouter([
+  
+
   {
     path: '/',
     element: <Root />,
@@ -16,23 +19,28 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path : 'knowledge',
-        children : khowledge_routes
+        path: 'knowledge',
+        children: khowledge_routes
       },
       {
-        path : 'proyect',
-        children : proyect_routes
+        path: 'proyect',
+        children: PROYECT_ROUTES
       },
       {
-        path : 'tool',
-        children : tool_routes
+        path: 'tool',
+        children: TOOL_ROUTES
       },
       {
-        path : '',
-        children : resume_routes
+        path: '',
+        children: RESUME_ROUTES
       }
     ],
+    
   },
+  {
+    path: 'auth',
+    children: AUTH_ROUTES
+  }
 ]);
 
 export default router;

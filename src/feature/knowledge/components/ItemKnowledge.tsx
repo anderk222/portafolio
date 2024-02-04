@@ -1,29 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Item, Label, Progress } from 'semantic-ui-react'
-import { khowledge } from '../khowledge';
-import { useCallback, useState } from 'react';
-import { delete_skill } from '../khowledge.api';
+import { khowledge } from '../model/khowledge';
 
-const ItemKnowledge = ({ khowledge } : { khowledge : khowledge }) => {
+const ItemKnowledge = ({ khowledge, onDelete }: props) => {
 
   const navigate = useNavigate();
 
-  const [ state, setState ] = useState<'initial' |'loading' | 'ok'>('initial');
-
-  const deleteSkill = useCallback(async(id : number)=>{
-
-    try{
-
-      setState('loading')
-      await delete_skill(id);
-      setState('ok')
-
-    }catch(err){
-      alert(( err as Error).message)
-      setState('ok')
-    }
-
-  },[]);
 
   return (
     <Item className=''>
@@ -44,22 +26,26 @@ const ItemKnowledge = ({ khowledge } : { khowledge : khowledge }) => {
         </Item.Description>
         <div>
 
-        <Button 
-        content='Delete' 
-        onClick={()=>deleteSkill(khowledge.id)} 
-        color='red' 
-        loading={ state == 'loading' }
-        />
-          <Button onClick={()=>navigate(khowledge.id)} color='green' >
+          <Button onClick={() => navigate(khowledge.id)} color='green' >
             Update
           </Button>
+          <Button
+            content='Delete'
+            onClick={() => onDelete(khowledge.id)}
+            color='red'
+          />
         </div>
       </Item.Content>
     </Item>
   )
 }
 
+type props = {
 
+  onDelete(id: number): void,
+  khowledge: khowledge
+
+}
 
 
 export default ItemKnowledge;
