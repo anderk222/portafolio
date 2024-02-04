@@ -3,17 +3,16 @@ import { Button, Form as UIForm, Icon, Label, Modal } from 'semantic-ui-react'
 import { UseBoolean } from '../../../hooks/useBoolean';
 import SelectCategory from '../../../shared/SelectCategory';
 import { tool_schema } from '../tool';
-import { save_tool, get_tool, update_tool } from '../tool.api';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { getTool } from '../services/tool.api';
+import { useSearchParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import { Tool } from '../tool';
 import { useEffect } from 'react';
 import { remove_query } from '../../../utils/QueryParams';
 
-const FormModal = ({ toggle }: props) => {
+const FormModal = ({ toggle, handlerEdit, handlerSave }: props) => {
 
   const { boolean, active, desactive } = toggle;
-
 
   return (
     <Modal
@@ -26,7 +25,7 @@ const FormModal = ({ toggle }: props) => {
       <Modal.Content >
         <Modal.Description>
           <FormTool
-            desactive={desactive}
+            {...{handlerEdit,handlerSave,toggle}}
           />
         </Modal.Description>
       </Modal.Content>
@@ -34,10 +33,7 @@ const FormModal = ({ toggle }: props) => {
     </Modal>
   )
 };
-
-
-const FormTool = ({ desactive }: { desactive(): void }) => {
-
+const FormTool = ({ handlerEdit,handlerSave,toggle }: props) => {
 
   const { run,status , data  } = useFetch<Tool>();
 
@@ -48,16 +44,14 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
 
   useEffect(()=>{
 
-    console.log(current);
 
     if(!current) return;
 
-    run(()=>get_tool(current!));
+    run(()=>getTool(current!));
 
   },[params.get('current')])
 
   useEffect(()=>{},[data])
-
 
   return (
     <Formik
@@ -112,9 +106,12 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
   async function handleSubmit(value: any) {
 
     try{
-      if(!current) await save_tool(value);
-      else await update_tool(value);
-      desactive()
+
+      if(!current) await handlerSave(value);
+      else{ 
+        await handlerEdit(value);
+        setSearchParams(remove_query(params, 'current')); 
+      }
 
     }catch(err){
       alert((err as Error).message)
@@ -126,7 +123,7 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
 
     setSearchParams(remove_query(params, 'current')); 
 
-    desactive();
+    toggle.desactive();
   }
 
 
@@ -134,7 +131,9 @@ const FormTool = ({ desactive }: { desactive(): void }) => {
 
 type props = {
 
-  toggle: UseBoolean
+  toggle: UseBoolean,
+  handlerEdit : (values : Tool)=>Promise<void>,
+  handlerSave : (value: Tool)=> Promise<void>
 
 
 }

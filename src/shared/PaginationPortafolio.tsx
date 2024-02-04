@@ -10,7 +10,7 @@ const PaginationPortafolio = ({pages} : { pages? : number }) => {
 
   useEffect(() => {}, [queryParams]);
 
-  const total_pages = useMemo(()=>pages,[pages]);
+  // const total_pages = useMemo(()=>pages,[pages]);
 
   return (
     <Container textAlign='center'>

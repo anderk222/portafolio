@@ -3,6 +3,11 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "paths": {
+
+      // "@portafolio/*": ["./src/*"]
+      
+    },
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,

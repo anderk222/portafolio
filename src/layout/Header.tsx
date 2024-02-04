@@ -22,7 +22,7 @@ const Header = () => {
       </nav>
       <div className='h-full w-full pt-16' >
         <AlertMessage content='This site is still under construction' />
-        <Suspense fallback={<FullLoading />} >
+        <Suspense  fallback={<FullLoading />} >
           <Outlet />
         </Suspense>
       </div>

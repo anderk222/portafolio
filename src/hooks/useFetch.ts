@@ -15,7 +15,15 @@ export function useFetch<T>(callback?: CallBack): UseFetch<T> {
 
     return {
         ...state,
-        run
+        run,
+        setData
+    }
+
+    function setData(data: T){
+
+        setState(state=>{return{...state,data}});
+
+
     }
 
     function run(callback: CallBack) { set(callback) };
@@ -30,7 +38,7 @@ export function useFetch<T>(callback?: CallBack): UseFetch<T> {
 
             return res.json();
         })
-            .then((parse: T) => {
+            .then((parse: T) => {new Response();
                 
                 setState({ data: parse, status: 'ok' })
             })
@@ -46,7 +54,8 @@ export type UseFetch<T> = {
     error?: string,
     data?: T,
     status: status
-    run: (callback: CallBack) => void
+    run: (callback: CallBack) => void,
+    setData: (data: T)=> void
 };
 
 type state<T> = { error?: string, data?: T, status: status }

@@ -1,20 +1,24 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 
-const Khowledge = lazy(() => import('./KhowledgePage'));
-const FormKhowledge = lazy(() => import('./FormKhowledge'));
+const KhowledgePage = lazy(() => import('./pages/KhowledgePage'));
+const FormKhowledge = lazy(() => import('./pages/FormKhowledge'));
 
-const khowledge_routes: RouteObject[] = [
+const KHOWLEDGE_ROUTES: RouteObject[] = [
 
     {
         path: '',
-        element: <Khowledge />
+        element: <KhowledgePage />
+    },
+    {
+        path: 'form',
+        element: <FormKhowledge />
     },
     {
         path: ':id',
         element: <FormKhowledge />
     }
-
+   
 ];
 
-export default khowledge_routes;
+export default KHOWLEDGE_ROUTES;

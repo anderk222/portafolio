@@ -20,7 +20,6 @@ const [open,setOpen] = useState(false);
       </Accordion>
    )
 
-
   function handleClick(event : any, data : AccordionTitleProps){
        setOpen(!open);
     

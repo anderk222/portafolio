@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button, Container, Header, Icon } from 'semantic-ui-react'
-import NewCategory from '../../category/NewCategory';
+import NewCategory from '../../category/componets/NewCategory';
 import FilterAcordion from './FilterAcordion';
 import { UseBoolean } from '../../../hooks/useBoolean';
 

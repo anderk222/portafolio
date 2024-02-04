@@ -1,11 +1,18 @@
 import 'semantic-ui-css/semantic.min.css'
 import { RouterProvider } from 'react-router-dom'
 import router from './router'
+import { RequestSnack } from './shared/RequestSnack'
+import { AuthProvider } from './context/AuthProvider'
 
 function App() {
 
   return (
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <>
+        <RequestSnack />
+        <RouterProvider router={router} />
+      </>
+    </AuthProvider>
   )
 }
 
