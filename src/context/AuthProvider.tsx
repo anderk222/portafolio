@@ -2,18 +2,26 @@ import { Auth } from '../feature/auth/models/Auth';
 import { authenticate } from '../feature/auth/service/auth.api';
 import { childProps } from '../models';
 import { isToken, removeToken, setToken } from '../utils/session';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const authContext = createContext<AuthCountext>({} as AuthCountext);
 
 export function AuthProvider({ children }: childProps) {
 
+    const [authenticated, setAuthenticated] = useState(false);
+
+    useEffect(()=>{
+
+        setAuthenticated(()=>isAuthenticated())
+
+    });
 
     return <authContext.Provider
         value={{
             logIn,
             isAuthenticated,
-            logOut
+            logOut,
+            authenticated
         }}
     >
         {children}
@@ -25,6 +33,7 @@ export function AuthProvider({ children }: childProps) {
             let data = await authenticate(auth);
 
             setToken(data);
+            setAuthenticated(()=>isAuthenticated())
 
     }
 
@@ -37,6 +46,9 @@ export function AuthProvider({ children }: childProps) {
     function logOut(){
 
         removeToken();
+
+
+        setAuthenticated(()=>false)
 
     }
 
@@ -58,6 +70,7 @@ export type AuthCountext = {
     logIn: (user: Auth) => Promise<void>,
     isAuthenticated: () => boolean,
     // session: { id: number },
-    logOut: () => void
+    logOut: () => void,
+    authenticated: boolean
 
 }

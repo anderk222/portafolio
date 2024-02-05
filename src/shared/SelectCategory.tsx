@@ -44,15 +44,13 @@ const SelectCategory = ({ onChange } : props) => {
 
     return (
         <Dropdown
-            placeholder='Select Country'
+            placeholder='Select Category'
             fluid
             search
             selection
             options={filtered}
-            value={search}
             onSearchChange={handleSearchrChange}
-            text='Select Category'
-             onChange={onChange}
+            onChange={onChange}
         />
     );
 

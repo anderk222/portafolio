@@ -53,7 +53,7 @@ const FormKhowledge = () => {
           {({ values, errors, setValues, setFieldValue, isSubmitting }) => (
             <Form className="ui form">
 
-              <SelectTool onChange={(_,data) => setFieldValue('tool.id', data.value)} />
+              <SelectTool onChange={(_,data) => setFieldValue('tool', data.value)} />
               <UIForm.Input
                 label={`Percentage skill: ${values.level}`}
                 min={10}

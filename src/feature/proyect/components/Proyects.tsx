@@ -6,7 +6,7 @@ import MoreInfoModal from "./MoreInfoModal";
 import ProyectCard from "./ProyectCard"
 import { useAuthContext } from "../../../context/AuthProvider";
 import { useSearchParams } from "react-router-dom";
-import { Project } from "../model/project";
+import { Project, empty } from "../model/project";
 import { Pagination } from "../../../models";
 import { useFetch } from "../../../hooks/useFetch";
 import { getProjectsByToken, getProjectsDefault, searchProjectsByToken, searchProjectsDefault } from "../service/project.api";
@@ -15,7 +15,7 @@ const Proyects = () => {
 
   const toggle = useBoolean();
 
-  const { current, change } = useCurrent<number>(0);
+  const { current, change } = useCurrent<Project>(empty());
 
   const { run, status, data, error, setData } = useFetch<Pagination<Project>>();
 
@@ -41,9 +41,9 @@ const Proyects = () => {
 
   useEffect(()=>{},[boolean]);
 
-  const handlerMore = useCallback((id: number) => {
+  const handlerMore = useCallback((project: Project) => {
 
-    change(id);
+    change(project);
     toggle.active();
 
   }, []);
@@ -54,12 +54,12 @@ const Proyects = () => {
   return (
     <div className='flex gap-2 p-2 flex-wrap'>
 
-   { status == 'ok'&& data!.data.map((project=> <ProyectCard {...{handlerMore, project}} />)) }
+   { status == 'ok'&& data!.data.map((project=> <ProyectCard key={project.id} {...{handlerMore, project}} />)) }
       
       <div className="flex w-full justify-center" >
-        <PaginationPortafolio pages={data?.totalPages} />
+        <PaginationPortafolio pages={data?.totalPages ||  1} />
       </div>
-      <MoreInfoModal toggle={toggle} />
+      <MoreInfoModal project={current} toggle={toggle} />
     </div>
   );
 

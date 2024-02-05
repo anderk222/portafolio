@@ -54,7 +54,7 @@ const Skills = ({ toggle }: { toggle: UseBoolean }) => {
 
       </Segment>
       }
-      {status == 'ok' && <PaginationPortafolio pages={data?.totalPages} />}
+      {status == 'ok' && <PaginationPortafolio pages={data?.totalPages || 1} />}
       {status == 'loading' && <FullLoading />}
 
     </Container>

@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Divider, Header, Icon, Image, Label, Modal } from 'semantic-ui-react'
 import { UseBoolean } from '../../../hooks/useBoolean';
+import { Project } from '../model/project';
+import Caurosel from '../../../shared/Carousel';
 
-const MoreInfoModal = ({ toggle }: props) => {
+const MoreInfoModal = ({ toggle, project }: props) => {
 
   const { boolean, active, desactive } = toggle;
 
@@ -14,53 +16,42 @@ const MoreInfoModal = ({ toggle }: props) => {
       onClose={desactive}
       onOpen={active}
       size='large'
-    
+
     >
-      <Modal.Header>Generador de excel</Modal.Header>
+      <Modal.Header>{project.name}</Modal.Header>
       <Modal.Content >
         <Modal.Description>
-          <Image
-            size='medium'
-            centered
-            src='https://react.semantic-ui.com/images/wireframe/image.png'
-
-          />
-          <Divider horizontal >
-            Detail
+          <Caurosel images={project.images} />
+           
+          <Divider >
           </Divider>
-          <p className='text-zinc-700' >
-           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur reiciendis sed voluptate neque nostrum assumenda porro delectus quis quos exercitationem obcaecati esse, quibusdam suscipit, aliquam veniam eveniet, magnam est? Reprehenderit.
-           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem nam corporis cupiditate ut nihil ratione consectetur rerum dolore consequuntur vero, exercitationem delectus laudantium. Quod delectus voluptatum aliquid atque esse dignissimos!
+          <h2 className='text font-semibold' >Detail</h2>
+          <p className='text-zinc-700 whitespace-pre-wrap' >
+            {project.detail}
           </p>
-          <Header as={'h3'} horizontal >
+          <Header as={'h3'} >
             Tools
           </Header>
           <Label.Group>
-            <Label as='a'>
-              Fun
-              <Icon name='close' />
-            </Label>
-            <Label as='a'>
-              Happy
-              <Label.Detail>22</Label.Detail>
-            </Label>
-            <Label as='a'>Smart</Label>
-            <Label as='a'>Insane</Label>
-            <Label as='a'>Exciting</Label>
+            {project.tools.map(tool => <Label key={tool.id}>{tool.name}</Label>)}
           </Label.Group>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={desactive} primary>
-          try it real live
-        </Button>
+        <a href={project.url || '#'} target='_blank' >
 
-        <Button onClick={()=>navigate('form')} color='green'>
+          <Button primary>
+            try it real live
+          </Button>
+        </a>
+
+        <Button onClick={() => navigate(`form/${project.id}`)} color='green'>
           Update
         </Button>
 
         <Button onClick={desactive} color='black'>
           Close
+
         </Button>
 
       </Modal.Actions>
@@ -70,7 +61,8 @@ const MoreInfoModal = ({ toggle }: props) => {
 
 type props = {
 
-  toggle: UseBoolean
+  toggle: UseBoolean,
+  project: Project
 
 
 }
