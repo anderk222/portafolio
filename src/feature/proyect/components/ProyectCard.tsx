@@ -2,21 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card } from "semantic-ui-react"
 import { Project } from "../model/project";
 
-const ProyectCard = ({ handlerMore }:props) => {
+const ProyectCard = ({ handlerMore, project }: props) => {
 
     const navigate = useNavigate();
 
     return (
         <div>
             <Card
-                header='Elliot Baker'
-                meta='Friend'
-                description='Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat.'
+                header={project.name}
+                // meta='Friend'
+                description={project.quickDetail}
                 extra={
                     <div className="flex " >
-                        <Button onClick={()=>handlerMore(1)} size="small" content='Mas info' primary />
-                        <Button size="small" content='probar' secondary />
-                        <Button onClick={() => navigate('form')} size="small" content='Editar' color="green" />
+                        <Button onClick={() => handlerMore(project)} size="small" content='Mas info' primary />
+                        <a href={project.url || '#'} target="_blank">
+                            <Button content='probar' secondary />
+                        </a>
+                        <Button onClick={() => navigate(`form/${project.id}`)} size="small" content='Editar' color="green" />
                     </div>
                 }
             />
@@ -26,7 +28,7 @@ const ProyectCard = ({ handlerMore }:props) => {
 
 type props = {
 
-    handlerMore(id : number):void,
+    handlerMore(project: Project): void,
     project: Project
 
 }

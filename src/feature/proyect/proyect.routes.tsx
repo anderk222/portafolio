@@ -13,6 +13,10 @@ const PROYECT_ROUTES : RouteObject[]= [
     {
       path : 'form',
       element : <FormProyect />
+    },
+    {
+      path : 'form/:id',
+      element : <FormProyect />
     }
   
   ];

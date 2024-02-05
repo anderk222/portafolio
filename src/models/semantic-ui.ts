@@ -1,7 +1,7 @@
 export type DropdownOpt = {
 
     key: number;
-    value: number;
+    value: string;
     text: string;
 
 } 

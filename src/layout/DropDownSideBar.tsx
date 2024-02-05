@@ -1,10 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import ContactModal from "../feature/contact/components/ContactModal";
+import { useAuthContext } from "../context/AuthProvider";
+import { useEffect } from "react";
 
 const DropDownSideBar = () => {
 
   const navigate = useNavigate();
+
+  const auth = useAuthContext();
+
+  let isAuthenticated = auth.isAuthenticated();
+
+  useEffect(()=>{},[auth])
 
   return (
     <Dropdown text='Main'>
@@ -15,7 +23,12 @@ const DropDownSideBar = () => {
         <Dropdown.Item onClick={() => navigate('/tool')} icon='wrench' text='Tools' />
         <Dropdown.Item onClick={() => navigate('/')} icon='user' text='Resume' />
         <ContactModal />
-        <Dropdown.Item onClick={() => navigate('/auth')} icon='key' text='Login' />
+        <Dropdown.Item onClick={() => {
+          if (isAuthenticated) auth.logOut();
+          else navigate('/auth')
+
+        }} icon='key'
+          text={isAuthenticated ? 'Log out' : 'Login'} />
 
       </Dropdown.Menu>
     </Dropdown>

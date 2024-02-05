@@ -1,10 +1,10 @@
 import { Field, Form, Formik } from "formik";
-import { Button, Checkbox, Container, Form as UIform, Header, Icon, Label, LabelGroup, Segment } from "semantic-ui-react";
+import { Button, Container, Form as UIform, Header, Icon, Label, Segment } from "semantic-ui-react";
 import { Project, project_schema } from "../model/project";
 import { useFetch } from "../../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../../../context/AuthProvider";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getProject, saveProject, saveProjectByToken, updateProject, updateProjectByToken } from "../service/project.api";
 import SelectTool from "../../../shared/SelectTool";
 
@@ -16,6 +16,8 @@ const FormProyect = () => {
   const { id } = useParams();
 
   const auth = useAuthContext();
+
+  const refImgInput = useRef<HTMLInputElement>(null);
 
 
   useEffect(() => {
@@ -38,8 +40,9 @@ const FormProyect = () => {
           initialValues={data || {
             id: 0,
             name: '',
+            quickDetail: '',
             url: '',
-            detail : '',
+            detail: '',
             tools: [],
             images: []
 
@@ -58,24 +61,70 @@ const FormProyect = () => {
                 <label>Url</label>
                 <Field placeholder="Proyect's web" name="url" />
               </UIform.Field>
-              <SelectTool onChange={(_,data) => setFieldValue('tool.id', data.value)} />
+
+              <UIform.Field>
+                <label>Quick Detail</label>
+                <Field placeholder="Write a quick detail" name="quickDetail" />
+              </UIform.Field>
+              <UIform.Field>
+                <SelectTool
+                  onChange={(_, data) => {
+
+                    setFieldValue('tools', [...values.tools, data.value]);
+
+                  }}
+                />
+              </UIform.Field>
+              <div className="flex w-full pb-2" >
+                {values.tools.map(tool => (
+                  <Label  >
+                    {tool.name}
+                    <Icon name="delete" onClick={() => {
+                      setFieldValue('tools', [...values.tools.filter(tool => tool.id !== tool.id)]);
+
+                    }}
+                    />
+                  </Label>
+                ))}
+              </div>
+
               <UIform.TextArea
-              onChange={(event)=>setFieldValue('detail', event.target.value)}
+                onChange={(event) => setFieldValue('detail', event.target.value)}
+                value={values.detail}
               >
               </UIform.TextArea>
 
               <UIform.Field>
                 <label>Imagenes</label>
-                <Field placeholder="Proyect's web" />
+                <input ref={refImgInput} placeholder="Images' project" onKeyUp={(event) => {
+
+                  if (event.key == 'Enter') {
+
+                    event.preventDefault();
+
+                    if (!refImgInput.current) return;
+
+                    setFieldValue('images', [...values.images, { id: 0, url: refImgInput.current.value }]);
+
+                    refImgInput.current.value = '';
+
+
+                  }
+                }} />
               </UIform.Field>
               <div className="flex w-full pb-2" >
-                <Label  >
-                   Imagen
-                    <Icon name="delete" />
-                </Label>
-              </div>  
+                {values.images.map(image => (
+                  <Label image >
+                    <img src={image.url} alt="" />
+                    Image
+                    <Icon name="delete" onClick={() => {
+                      setFieldValue('images', [...values.images.filter(image => image.url !== image.url)]);
+
+                    }} />
+                  </Label>
+                ))}
+              </div>
               <Button loading={isSubmitting} color="green" type='submit'>Submit</Button>
-              <pre>{JSON.stringify(errors)}</pre>
             </Form>
           )}
         </Formik>
@@ -84,31 +133,30 @@ const FormProyect = () => {
   );
 
 
-  async function handlerSubmit(values: Project){
+  async function handlerSubmit(values: Project) {
 
-    let action : (body: Project)=>Promise<Project>;
+    let action: (body: Project) => Promise<Project>;
 
-    console.log(':)');
-    
 
-    if(!id){
-    
-      if(auth.isAuthenticated()) action=saveProjectByToken;
-      else action=saveProject
-    
-    }else{
 
-      if(auth.isAuthenticated()) action = updateProjectByToken
+    if (!id) {
+
+      if (auth.isAuthenticated()) action = saveProjectByToken;
+      else action = saveProject
+
+    } else {
+
+      if (auth.isAuthenticated()) action = updateProjectByToken
       else action = updateProject
 
     }
 
-    try{
+    try {
 
-     await action(values);
+      await action(values);
 
-    }catch(err){
-      
+    } catch (err) {
+
     };
 
   }

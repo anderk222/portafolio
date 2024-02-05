@@ -3,7 +3,6 @@ import { Dropdown, DropdownProps } from 'semantic-ui-react';
 import { useFetch } from '../hooks/useFetch';
 import { Pagination } from '../models/response';
 import { searchTools } from '../feature/tool/services/tool.api';
-import { DropdownOpt } from '../models/semantic-ui';
 import { Tool } from '../feature/tool/tool';
 
 const SelectTool = ({ onChange } : props) => {
@@ -27,10 +26,13 @@ const SelectTool = ({ onChange } : props) => {
 
         if(status != 'ok') return;
 
-        let converted : DropdownOpt[] = data!.data.map(v =>{
-            return { 
-                key:v.id , value : v.id, text: v.name 
+        let converted : {key: number, value: Tool, text: string}[] = data!.data.map(v =>{
+
+            let obj = { 
+                key:v.id , value : v, text: v.name 
             }
+
+            return obj;
         })
 
         setFiltered(converted);
@@ -47,12 +49,12 @@ const SelectTool = ({ onChange } : props) => {
             search
             selection
             options={filtered}
-            value={search}
             onSearchChange={handleSearchrChange}
-            text='Select tool'
             onChange={onChange}
         />
     );
+
+  
 
     function handleSearchrChange(event : React.SyntheticEvent<HTMLElement, Event>){
 
@@ -67,5 +69,13 @@ const SelectTool = ({ onChange } : props) => {
 type props = {
     onChange( event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps):void | undefined
 }
+
+type DropdownOpt = {
+
+    key: number;
+    value: any;
+    text: string;
+
+} 
 
 export default SelectTool
