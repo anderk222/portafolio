@@ -1,4 +1,4 @@
-import { UserSave } from "@portafolio/feature/user/model/user";
+import { UserSave } from "../../../feature/user/model/user";
 import { Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { Container, Divider, FormField, Form as UIform } from "semantic-ui-react";
