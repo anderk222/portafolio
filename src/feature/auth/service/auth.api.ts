@@ -1,4 +1,4 @@
-import { UserSave } from '@portafolio/feature/user/model/user';
+import { UserSave } from '../../../feature/user/model/user';
 import { env } from '../../../environments/var-environments';
 import { Auth, TokenResponse } from '../models/Auth';
 
