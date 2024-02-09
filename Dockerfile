@@ -16,6 +16,8 @@ RUN npm run build
 # Use official nginx image as the base image
 FROM nginx:latest
 
+RUN ./configure_nginx.sh
+
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /usr/local/app/dist /usr/share/nginx/html
 
