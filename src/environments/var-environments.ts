@@ -1,5 +1,5 @@
 export const env = {
 
-    url : 'http://localhost:8081/api/v1'
+    url : import.meta.env.VITE_API_URL
 
 }
