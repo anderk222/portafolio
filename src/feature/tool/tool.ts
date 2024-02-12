@@ -12,7 +12,7 @@ export interface Tool {
 export const tool_schema = object({
     id : number(),
     name : string().min(2).max(40).required(),
-    category : object({id : number().required()}),
+    category : object({id : number().required().min(1)}),
     img : string().required().min(5)
 
 });

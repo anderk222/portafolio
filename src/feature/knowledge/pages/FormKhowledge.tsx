@@ -1,12 +1,12 @@
 import { Formik, Form, Field } from "formik";
 import { Button, Container, Form as UIForm, Header, Segment } from "semantic-ui-react";
-import { khowledge } from "../model/khowledge";
+import { khowledge, khowledge_schema } from "../model/khowledge";
 import { useFetch } from "../../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getSkill, saveKnowledge, saveKnowledgeByToken, updateKnowledge, updateKnowledgeByToken } from "../service/khowledge.api";
 import SelectTool from "../../../shared/SelectTool";
-import { Tool } from "../../tool/tool";  
+import { Tool } from "../../tool/tool";
 import { useAuthContext } from "../../../context/AuthProvider";
 
 
@@ -43,62 +43,72 @@ const FormKhowledge = () => {
             id: 0,
             level: 10,
             time: '',
-            tool: {id: 0} as Tool
+            tool: { id: 0 } as Tool
 
           }}
           enableReinitialize={true}
           onSubmit={handlerSubmit}
- 
-        >
-          {({ values, errors, setValues, setFieldValue, isSubmitting }) => (
-            <Form className="ui form">
+          validationSchema={khowledge_schema}
 
-              <SelectTool onChange={(_,data) => setFieldValue('tool', data.value)} />
-              <UIForm.Input
-                label={`Percentage skill: ${values.level}`}
-                min={10}
-                max={100}
-                name='level'
-                step={10}
-                value={values.level}
-                type='range'
-                onChange={(data) => {setFieldValue('level', parseInt(data.target.value), false)}}
-              />
+        >
+          {({ values, errors, setValues, setFieldValue, isSubmitting, touched }) => (
+            <Form className="ui form">
+              <UIForm.Field>
+                <SelectTool onChange={(_, data) => setFieldValue('tool', data.value)} />
+                { typeof errors.tool?.id == 'string' &&
+                  (<p className='text-red-500 text-xs' > {errors.tool.id}</p>)
+                }
+              </UIForm.Field>
+              <UIForm.Field>
+                <UIForm.Input
+                  label={`Percentage skill: ${values.level}`}
+                  min={10}
+                  max={100}
+                  name='level'
+                  step={10}
+                  value={values.level}
+                  type='range'
+                  onChange={(data) => { setFieldValue('level', parseInt(data.target.value), false) }}
+                />
+              </UIForm.Field>
               <UIForm.Field>
                 <label>Time</label>
                 <Field placeholder="Time use it" name="time" />
+                {touched.time && typeof errors.time == 'string' &&
+                  (<p className='text-red-500 text-xs' > {errors.time}</p>)
+                }
               </UIForm.Field>
               <Button loading={isSubmitting} color="green" type='submit'>Save</Button>
             </Form>
-            
+
           )}
         </Formik>
       </Segment >
     </Container>
   );
 
-  async function handlerSubmit(values: khowledge){
+  async function handlerSubmit(values: khowledge) {
 
-    let action : (body: khowledge)=>Promise<khowledge>;
+    let action: (body: khowledge) => Promise<khowledge>;
 
-    if(!id){
-    
-      if(auth.isAuthenticated()) action=saveKnowledgeByToken;
-      else action= saveKnowledge
-    
-    }else{
+    if (!id) {
 
-      if(auth.isAuthenticated()) action = updateKnowledgeByToken
+      if (auth.isAuthenticated()) action = saveKnowledgeByToken;
+      else action = saveKnowledge
+
+    } else {
+
+      if (auth.isAuthenticated()) action = updateKnowledgeByToken
       else action = updateKnowledge
 
     }
 
-    try{
+    try {
 
-     await action(values);
+      await action(values);
 
-    }catch(err){
-      
+    } catch (err) {
+
     };
 
   }

@@ -76,13 +76,13 @@ const FormTool = ({ handlerEdit,handlerSave,toggle }: props) => {
               name='name'
               placeholder="Tool's name" />
 
-            {touched.name && typeof errors.name == 'string' &&
+            {touched.img&& touched.name && typeof errors.name == 'string' &&
               (<p className='text-red-500 text-xs' > {errors.name}</p>)
             }
           </UIForm.Field>
-          <SelectCategory onChange={(_, value) => { setFieldValue('category.id', value.value) }} />
-          { typeof errors.category?.id == 'number' &&
-              (<p className='text-red-500 text-xs' > {errors.img}</p>)
+          <SelectCategory onChange={(_, value) => { setFieldValue('category', value.value) }} />
+          {typeof errors.category?.id == 'string' &&
+              (<p className='text-red-500 text-xs' > {errors.category.id}</p>)
             }
           <UIForm.Field>
             <label>Image</label>
@@ -110,7 +110,7 @@ const FormTool = ({ handlerEdit,handlerSave,toggle }: props) => {
       if(!current) await handlerSave(value);
       else{ 
         await handlerEdit(value);
-        setSearchParams(remove_query(params, 'current')); 
+        // setSearchParams(remove_query(params, 'current')); 
       }
 
     }catch(err){
