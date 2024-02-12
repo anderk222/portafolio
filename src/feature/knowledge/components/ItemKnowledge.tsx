@@ -26,7 +26,7 @@ const ItemKnowledge = ({ khowledge, onDelete }: props) => {
         </Item.Description>
         <div>
 
-          <Button onClick={() => navigate(khowledge.id)} color='green' >
+          <Button onClick={() => navigate(`form/${khowledge.id}`)} color='green' >
             Update
           </Button>
           <Button

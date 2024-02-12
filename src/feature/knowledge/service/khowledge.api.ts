@@ -55,19 +55,19 @@ export async function deleteSkill(id : number) {
 export function getKnowledgesByUser(params : string,userId: number) {
 
 
-    return fetch(url + `/${userId}/user?${params}`, { headers });
+    return fetch(url + `/find/${userId}/user?${params}`, { headers });
 
 }
 
 export function searchKnowledgesByUser(params : string, userId: number){
 
-    return fetch(url + `/search/${userId}/user?${params}`, { headers });
+    return fetch(url + `/find/search/${userId}/user?${params}`, { headers });
     
 }
 
 export function getSkill(id: number | string) {
 
-    return fetch(`${url}/${id}`, { headers });
+    return fetch(`${url}/find/${id}`, { headers });
 
 };
 

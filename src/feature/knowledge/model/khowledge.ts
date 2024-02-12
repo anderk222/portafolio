@@ -16,7 +16,6 @@ export const khowledge_schema = object({
     id : number(),
     time : string().required(),
     level : number().required().test('len', 'Must be less than 100', (v)=> !v || v  < 101),
-    user : object({ id : number() }),
     tools : array(object({ id : number() }))
 
 })
