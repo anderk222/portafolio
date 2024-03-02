@@ -1,18 +1,20 @@
 import { Button, Divider } from "semantic-ui-react";
 import { social } from "../../../helpers";
+import { User } from "../../user/model/user";
+import { Profile } from "../../profile/model/profile";
 
-const AboutHeader = () => {
+const AboutHeader = ({ user, profile }: props) => {
 
     return (
         <>
             <section className="flex justify-between items-center" >
                 <div>
                     <h1 className="text-5xl" >
-                        Anderson Macias
+                        {user.name}
                     </h1>
-                    <p className="text-xs" >Software Developer</p>
+                    <p className="text-xs" >{profile.position}</p>
 
-                    <p>Appacionate software Developer, main tools are SpringBoot & Angular 🎆</p>
+                    <p>{profile.detail}</p>
                 </div>
                 <div>
                     <Button
@@ -28,6 +30,11 @@ const AboutHeader = () => {
     );
 
 };
+
+type props = {
+    user : User
+    profile : Profile
+}
 
 function outNav(url: string) {
 

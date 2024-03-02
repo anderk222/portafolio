@@ -1,118 +1,30 @@
-import { Icon, Label, Popup } from "semantic-ui-react";
+import { Icon, Image, Label, Popup } from "semantic-ui-react";
+import { khowledge } from "../../knowledge/model/khowledge";
 
-const Skills = ()=>{
+const Skills = ({ skills }: props) => {
 
 
-    return(
+    return (
         <section className="flex flex-col gap-2 pb-24">
 
-                    <h4 className="text-xl font-semibold">
-                        Habilidades
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
+            <h4 className="text-xl font-semibold">
+                Habilidades
+            </h4>
+            <div className="flex flex-wrap gap-2">
+                { skills.map(skill=>(
+                <Popup key={skill.id}
+                content={`Dominio de herramienta ${skill.level}%`}
+                trigger={<Label>
+                    {skill.level}%
+                    <Label.Detail>{skill.tool.name}</Label.Detail>
+                </Label>} />
+                ))}
 
-                        <Popup
-                            content="Dominio de herramienta 60%"
-                            trigger={<Label>
-                                <Icon name="js square" />
-                                60%
-                                <Label.Detail>JavaScript</Label.Detail>
-                            </Label>} />
-
-                        <Popup
-                            content="Dominio de herramienta 60%"
-                            trigger={<Label>
-                                60%
-                                <Label.Detail>TypeScript</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 60%"
-                            trigger={<Label>
-                                <Icon name="react" />
-                                60%
-                                <Label.Detail>React</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 70%"
-                            trigger={<Label>
-                                <Icon name="angular" />
-                                70%
-                                <Label.Detail>Angular</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 60%"
-                            trigger={<Label>
-                                60%
-                                <Label.Detail>Spring Boot</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 66%"
-                            trigger={<Label>
-                                66%
-                                <Label.Detail>PostgreSQL</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 50%"
-                            trigger={<Label>
-                                <Icon name="css3" />
-                                50%
-                                <Label.Detail>CSS</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 40%"
-                            trigger={<Label>
-                                40%
-                                <Label.Detail>Java</Label.Detail>
-                            </Label>} />
-                            <Popup
-                            content="Dominio de herramienta 40%"
-                            trigger={<Label>
-                                40%
-                                <Label.Detail>Figma</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 30%"
-                            trigger={<Label>
-                                <Icon name="docker" />
-                                30%
-                                <Label.Detail>Docker</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 60%"
-                            trigger={<Label>
-                                60%
-                                <Label.Detail>SQL</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 50%"
-                            trigger={<Label>
-                                <Icon name="html5" />
-                                50%
-                                <Label.Detail>HTML</Label.Detail>
-                            </Label>} />
-
-                            <Popup
-                            content="Dominio de herramienta 50%"
-                            trigger={<Label>
-                                <Icon name="node js" />
-                                50%
-                                <Label.Detail>NodeJS</Label.Detail>
-                            </Label>} />
-
-                    </div>
-                </section>
+            </div>
+        </section>
     )
+};
 
-
-}
+type props = { skills: khowledge[] }
 
 export default Skills;

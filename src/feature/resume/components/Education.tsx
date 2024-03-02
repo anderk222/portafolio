@@ -1,6 +1,7 @@
 import { Divider } from "semantic-ui-react"
+import { Education as Model } from "../../education/model/education"
 
-const Education = () => {
+const Education = ({ education }: props) => {
 
     return (
 
@@ -9,17 +10,28 @@ const Education = () => {
             <h4 className="text-xl font-semibold">
                 Educación
             </h4>
+            {education.map(data => (
+                <article key={data.id} className="">
+                    <p className="font-semibold">{data.position}</p>
+                    <p className="text-neutral-800" >{data.istName}</p>
+                    <p className="text-xs text-end " >
+                        {data.startDate.toString()}-{data.startDate?.toString() || 'Actualmente'}</p>
+                    <Divider inverted />
+                </article>
+            ))}
 
-            <article className="">
-                <p className="font-semibold">Tecnologia en Desarrollo de Software</p>
-                <p className="text-neutral-800" >Instituto Superio Tecnologico Yavirac</p>
-                <p className="text-xs text-end " >2020-2023</p>
-                <Divider inverted />
-            </article>
+            {!education.length && <>
+                <p>No se ha registrado educacion</p> 
+                {/* <Divider inverted /> */}
+                </>}
 
         </section>
     )
 
+}
+
+type props = {
+    education: Model[]
 }
 
 export default Education;

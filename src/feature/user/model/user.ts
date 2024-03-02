@@ -6,3 +6,11 @@ export interface UserSave {
         phone: string;
     };
 }
+
+export interface User {
+
+    name : string
+    mail : string
+
+
+}
