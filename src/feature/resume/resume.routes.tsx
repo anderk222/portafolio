@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 import AboutPage from "./pages/ResumePage";
 import ResumeAdmiPage from "./pages/ResumeAdminPage";
 import ProfileFormPage from "./pages/ProfileFormPage";
-import ExperienceFormPage from "./pages/ExperieceFormPage";
+import ExperienceFormPage from "./pages/ExperienceFormPage";
 import EducationFormPage from "./pages/EducationFormPage";
 
 const RESUME_ROUTES : RouteObject[] = [
