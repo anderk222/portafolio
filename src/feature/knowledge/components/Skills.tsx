@@ -4,8 +4,7 @@ import ItemKnowledge from './ItemKnowledge'
 import { UseBoolean, useBoolean } from '../../../hooks/useBoolean';
 import { useFetch } from '../../../hooks/useFetch';
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { add_query } from '../../../utils/QueryParams';
+import { useEffect, useState } from 'react';
 import { Pagination } from '../../../models/response';
 import { khowledge } from '../model/khowledge';
 import FullLoading from '../../../shared/FullLoading';

@@ -1,6 +1,7 @@
 import { Divider } from "semantic-ui-react"
+import { Experience as Model } from "../../experience/model/experience";
 
-const Experience = () => {
+const Experience = ({ experience }: props) => {
 
     return (
 
@@ -10,24 +11,21 @@ const Experience = () => {
                 Experiencia
             </h4>
 
-            <article className="">
-                <p className="font-semibold">Pasante Desarrolldor FullStack</p>
-                <p className="text-neutral-800 font-semibold " >Sistemas Ágiles </p>
-                <p className="text-neutral-800 text-sm" >Desarrollo Fullstack usando Angular, PosgreSQL & Spring Boot</p>
-                <p className="text-xs text-end " >Agos 22 - Oct 07 (2022)</p>
-                <Divider inverted />
-            </article>
+            {experience.map(value => (
+                <article className="">
+                    <p className="font-semibold">{value.position}</p>
+                    <p className="text-neutral-800 font-semibold " >{value.company}</p>
+                    <p className="text-neutral-800 text-sm" >{value.detail}</p>
+                    <p className="text-xs text-end " >{value.startDate.toLocaleString()} hasta {value.startDate?.toLocaleString() || 'Actualmente'}</p>
+                    <Divider inverted />
+                </article>
+            ))}
 
-            <article className="">
-                <p className="font-semibold">Pasante Desarrolldor FullStack</p>
-                <p className="text-neutral-800 font-semibold " >Sistemas Ágiles </p>
-                <p className="text-neutral-800 text-sm" >Desarrollo Fullstack usando NextJS, Spring Boot & React Native</p>
-                <p className="text-xs text-end " >Agos 22 - Oct 07 (2022)</p>
-                <Divider inverted />
-            </article>
         </section>
     )
 
 };
+
+type props = { experience: Model[] }
 
 export default Experience;
