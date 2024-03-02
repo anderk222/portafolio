@@ -1,16 +1,21 @@
-import { Button, Container, Divider, Header } from "semantic-ui-react";
+import { Button, Container, Divider, Header, Loader } from "semantic-ui-react";
 import EducationForm from "../../education/components/EducationForm";
-import { Education } from "../../education/model/education";
-
-const defaultExp: Education = {
-    id: 0,
-    istName: ":)",
-    position: "",
-    startDate: new Date(),
-    endDate: new Date()
-}
+import { Education, educationDefault } from "../../education/model/education";
+import { useFetch } from "../../../hooks/useFetch";
+import { Pagination, paginationDefault } from "../../../models";
+import { useEffect } from "react";
+import { getEducationsByToken } from "../../education/service/education.api";
 
 const EducationFormPage = () => {
+    
+    const { data, status, setData, error, run } = useFetch<Pagination<Education>>();
+
+    useEffect(() => {
+
+        run(() => getEducationsByToken(''));
+
+    }, []);
+
 
     return (
 
@@ -19,13 +24,30 @@ const EducationFormPage = () => {
             <Header size='medium' textAlign='center' as='h2' >
                 Education
             </Header>
-            <EducationForm education={defaultExp} />
+            {status == 'ok' && data?.data.map((value, idx) => (
+
+                <EducationForm key={idx} education={value} />
+            ))}
+            {status == 'loading' && <Loader />}
+
             <Divider />
-            <Button  >Add education</Button>
+            <Button onClick={addEducation} >Add education</Button>
 
         </Container>
 
     );
+
+
+    function addEducation() {
+        if (!data) {
+            setData({...paginationDefault(), data: [educationDefault()]})
+        }else{
+
+            setData({...data, data: [...data.data, educationDefault()]});
+        }
+
+        
+    }
 
 
 }
