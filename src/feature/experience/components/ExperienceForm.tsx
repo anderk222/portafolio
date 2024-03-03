@@ -15,8 +15,7 @@ const ExperienceForm = ({ experience }: props) => {
     <Formik
 
       initialValues={experience}
-      onSubmit={() => { }}
-    >
+      onSubmit={handlerSubmit}>
       {({ setFieldValue, isSubmitting, values }) => (<Form className="ui form">
 
         <UIForm.Field>
