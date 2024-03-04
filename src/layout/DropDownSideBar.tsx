@@ -23,6 +23,8 @@ const DropDownSideBar = () => {
         <Dropdown.Item onClick={() => navigate('/tool')} icon='wrench' text='Tools' />
         <Dropdown.Item onClick={() => navigate('/')} icon='user' text='Resume' />
         <ContactModal />
+        <Dropdown.Item onClick={() => navigate('/config')} icon='cog' text='Configuration' />
+
         <Dropdown.Item onClick={() => {
           if (isAuthenticated) auth.logOut();
           else navigate('/auth')

@@ -4,7 +4,7 @@ export interface Experience {
     position:  string;
     detail:    string;
     startDate: Date;
-    endDate:   Date;
+    endDate:   Date | null;
 }
 
 export function experienceDefault(): Experience{
@@ -16,7 +16,7 @@ export function experienceDefault(): Experience{
         position: "",
         detail: '',
         startDate: new Date(),
-        endDate: new Date()
+        endDate: null
     }
 
 }
