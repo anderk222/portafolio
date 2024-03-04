@@ -41,7 +41,7 @@ const navigate = useNavigate();
 
             }
             <div className="flex justify-center w-full" >
-                <Button onClick={()=> navigate('admin')}>
+                <Button onClick={()=> navigate('/config/resume')}>
                 <Icon name="edit" ></Icon></Button></div>
 
         </Container>

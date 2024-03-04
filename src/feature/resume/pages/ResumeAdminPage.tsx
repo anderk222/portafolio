@@ -14,7 +14,7 @@ const ResumeAdmiPage = () => {
       <List divided size="medium" relaxed>
 
         <ListItem as={'a'} onClick={() => navigate('profile')} >
-          <Image avatar src='https://cdn-icons-png.flaticon.com/128/9772/9772462.png' />
+          <Image avatar src='https://cdn-icons-png.flaticon.com/128/668/668709.png' />
           <ListContent>
             <ListHeader as='b' >Profile</ListHeader>
             <ListDescription>
