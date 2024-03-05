@@ -16,7 +16,7 @@ const Experience = ({ experience }: props) => {
                     <p className="font-semibold">{value.position}</p>
                     <p className="text-neutral-800 font-semibold " >{value.company}</p>
                     <p className="text-neutral-800 text-sm" >{value.detail}</p>
-                    <p className="text-xs text-end " >{value.startDate.toLocaleString()} hasta {value.startDate?.toLocaleString() || 'Actualmente'}</p>
+                    <p className="text-xs text-end " >{value.startDate.toLocaleString()} hasta {value.endDate?.toLocaleString() || 'la actualidad'}</p>
                     <Divider inverted />
                 </article>
             ))}
