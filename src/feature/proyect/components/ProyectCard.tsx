@@ -13,37 +13,33 @@ const ProyectCard = ({ handlerMore, project, onDelete, auth }: props) => {
                 header={project.name}
                 // meta='Friend'
                 description={project.quickDetail}
-                extra={auth?.isAuthenticated() && <Extras />}
+                extra={<div className="flex " >
+                    <Button
+                        onClick={() => handlerMore(project)}
+                        size="small"
+                        content='Mas info'
+                        primary />
+
+                    {auth?.isAuthenticated() && <>
+                        <Button
+                            onClick={() => navigate(`form/${project.id}`)}
+                            size="small" content='Editar'
+                            color="green" />
+                        <Button
+                            onClick={() => onDelete(project.id)}
+                            size="small"
+                            content='Delete'
+                            color="red" />
+
+                    </>}
+
+                </div>
+                }
             />
         </div>
     );
 
-    function Extras() {
 
-        return (
-            <div className="flex " >
-                <Button
-                    onClick={() => handlerMore(project)}
-                    size="small"
-                    content='Mas info'
-                    primary />
-                {/* <a href={project.url || '#'} target="_blank">
-                 <Button content='probar' secondary />
-             </a> */}
-                <Button
-                    onClick={() => navigate(`form/${project.id}`)}
-                    size="small" content='Editar'
-                    color="green" />
-                <Button
-                    onClick={() => onDelete(project.id)}
-                    size="small"
-                    content='Delete'
-                    color="red" />
-
-            </div>
-
-        );
-    }
 };
 
 type props = {
