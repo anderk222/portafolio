@@ -11,10 +11,12 @@ export function AuthProvider({ children }: childProps) {
     const [authenticated, setAuthenticated] = useState(false);
 
     useEffect(()=>{
+    
+        setAuthenticated(()=>isToken())
 
-        setAuthenticated(()=>isAuthenticated())
-
-    });
+    },[]);
+    
+    useEffect(()=>{},[authenticated])
 
     return <authContext.Provider
         value={{
@@ -33,13 +35,13 @@ export function AuthProvider({ children }: childProps) {
             let data = await authenticate(auth);
 
             setToken(data);
-            setAuthenticated(()=>isAuthenticated())
+            setAuthenticated(()=>true)
 
     }
 
     function isAuthenticated(){
 
-        return isToken();
+        return authenticated;
 
     }
 
@@ -47,11 +49,9 @@ export function AuthProvider({ children }: childProps) {
 
         removeToken();
 
-
         setAuthenticated(()=>false)
 
     }
-
 
 }
 

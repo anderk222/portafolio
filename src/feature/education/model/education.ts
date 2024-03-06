@@ -4,13 +4,13 @@ export type Education = {
     career: string
     istName: string
     startDate: Date
-    endDate: Date | null
+    endDate?: Date
 
 }
 
 export function educationDefault(): Education {
 
     return {
-         istName: '', career: '', id: 0, startDate: new Date(),endDate: null,
+         istName: '', career: '', id: 0, startDate: new Date(),endDate: undefined,
     }
 }

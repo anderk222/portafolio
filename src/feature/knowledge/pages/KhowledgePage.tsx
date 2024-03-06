@@ -3,10 +3,11 @@ import KhowledgeHeader from "../components/KhowledgeHeader"
 import '../knowledge.css';
 import Skills from '../components/Skills';
 import { useBoolean } from '../../../hooks/useBoolean';
+import { useAuthContext } from "../../../context/AuthProvider";
 
 const KhowledgePage = () => {
 
-  const modal = useBoolean()
+  const modal = useBoolean();
 
   return (
     <div className="w-full flex justify-center h-screen" >
@@ -14,7 +15,7 @@ const KhowledgePage = () => {
         <div className="flex flex-col gap-4">
         <KhowledgeHeader />
         
-        <Skills toggle={modal} />
+        <Skills toggle={modal}  />
        
         </div>
         <Footer /> 

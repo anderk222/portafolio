@@ -12,7 +12,7 @@ const Experience = ({ experience }: props) => {
             </h4>
 
             {experience.map(value => (
-                <article className="">
+                <article key={value.id} className="">
                     <p className="font-semibold">{value.position}</p>
                     <p className="text-neutral-800 font-semibold " >{value.company}</p>
                     <p className="text-neutral-800 text-sm" >{value.detail}</p>

@@ -4,11 +4,13 @@ import { Form as UIForm } from 'semantic-ui-react';
 import { saveExperienceByToken, updateExperienceByToken } from "../service/experience.api";
 import { useAuthContext } from "../../../context/AuthProvider";
 
-const ExperienceForm = ({ experience }: props) => {
+const ExperienceForm = ({ experience, onDelete, idx }: props) => {
 
   const auth = useAuthContext();
 
   const { id } = experience;
+
+  let isId = id > 0;
 
   return (
 
@@ -49,7 +51,16 @@ const ExperienceForm = ({ experience }: props) => {
         </UIForm.Group>
 
         <UIForm.Group>
-          <UIForm.Button disabled={isSubmitting} loading={isSubmitting} >Save</UIForm.Button>
+          <UIForm.Button disabled={isSubmitting} loading={isSubmitting} color="green" >Save</UIForm.Button>
+          <UIForm.Button disabled={isSubmitting} type="reset" color="black" >Reset</UIForm.Button>
+          {onDelete != undefined  && <UIForm.Button
+          color="red"
+          type="button"
+            disabled={isSubmitting}
+            onClick={() =>onDelete(isId ? id : idx, isId ? 'id' : 'index' )}
+          >Delete</UIForm.Button>
+          }
+
         </UIForm.Group>
 
       </Form>
@@ -64,30 +75,32 @@ const ExperienceForm = ({ experience }: props) => {
 
     if (!id) {
 
-        if (auth.isAuthenticated()) action = saveExperienceByToken;
-        else action = saveExperienceByToken
+      if (auth.isAuthenticated()) action = saveExperienceByToken;
+      else action = saveExperienceByToken
 
     } else {
 
-        if (auth.isAuthenticated()) action = updateExperienceByToken
-        else action = updateExperienceByToken
+      if (auth.isAuthenticated()) action = updateExperienceByToken
+      else action = updateExperienceByToken
 
     }
 
     try {
 
-        await action(values);
+      await action(values);
 
     } catch (err) {
 
     };
 
-}
+  }
 };
 
 type props = {
 
-  experience: Experience
+  onDelete?(id: number, tipoIdentificador : 'index' | 'id'): void,
+  experience: Experience,
+  idx: number
 
 }
 

@@ -4,11 +4,14 @@ import { Form as UIForm } from 'semantic-ui-react'
 import { saveEducationByToken, updateEducationByToken } from "../service/education.api";
 import { useAuthContext } from "../../../context/AuthProvider";
 
-const EducationForm = ({ education }: props) => {
+const EducationForm = ({ education, onDelete, idx }: props) => {
+
+    const auth = useAuthContext();
 
     const { id } = education;
 
-    const auth = useAuthContext();
+    let isId = id > 0;
+
 
     return (
 
@@ -46,9 +49,21 @@ const EducationForm = ({ education }: props) => {
                         </UIForm.Field>
                     </UIForm.Group>
                     <UIForm.Group>
-                        <UIForm.Button disabled={isSubmitting} loading={isSubmitting} >
+                        <UIForm.Button
+                            disabled={isSubmitting}
+                            loading={isSubmitting}
+                            color="green"
+                        >
                             Save
                         </UIForm.Button>
+                        <UIForm.Button disabled={isSubmitting} type="reset" color="black" >Reset</UIForm.Button>
+                        {onDelete != undefined && <UIForm.Button
+                            color="red"
+                            type="button"
+                            disabled={isSubmitting}
+                            onClick={() => onDelete(isId ? id : idx, isId ? 'id' : 'index')}
+                        >Delete</UIForm.Button>
+                        }
                     </UIForm.Group>
 
 
@@ -88,7 +103,9 @@ const EducationForm = ({ education }: props) => {
 
 type props = {
 
-    education: Education
+    education: Education,
+    onDelete?(id: number, tipoIdentificador: 'index' | 'id'): void,
+    idx: number
 }
 
 export default EducationForm;

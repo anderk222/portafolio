@@ -1,10 +1,8 @@
-import React from 'react'
 import Footer from '../../../layout/Footer';
 import HeaderProyect from '../components/HeaderProyect';
 import Proyects from '../components/Proyects';
 
 const Proyect = () => {
-
 
     return (
         <div className="w-full flex justify-center h-screen" >
