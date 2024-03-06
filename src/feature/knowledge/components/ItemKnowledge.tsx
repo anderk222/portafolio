@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Item, Label, Progress } from 'semantic-ui-react'
 import { khowledge } from '../model/khowledge';
+import { AuthCountext } from '../../../context/AuthProvider';
 
-const ItemKnowledge = ({ khowledge, onDelete }: props) => {
+const ItemKnowledge = ({ khowledge, onDelete, auth }: props) => {
 
   const navigate = useNavigate();
-
 
   return (
     <Item className=''>
@@ -21,11 +21,11 @@ const ItemKnowledge = ({ khowledge, onDelete }: props) => {
         </Item.Meta>
         <Item.Description>
           <div className='bg-slate-200 ' >
-            <Progress active percent={khowledge.level} autoSuccess inverted color='orange' indicating progress />
+            <Progress active percent={khowledge.level} autoSuccess inverted indicating progress />
           </div>
         </Item.Description>
-        <div>
 
+        {auth?.isAuthenticated() && <div>
           <Button onClick={() => navigate(`form/${khowledge.id}`)} color='green' >
             Update
           </Button>
@@ -35,6 +35,7 @@ const ItemKnowledge = ({ khowledge, onDelete }: props) => {
             color='red'
           />
         </div>
+        }
       </Item.Content>
     </Item>
   )
@@ -44,6 +45,7 @@ type props = {
 
   onDelete(id: number): void,
   khowledge: khowledge
+  auth?: AuthCountext
 
 }
 

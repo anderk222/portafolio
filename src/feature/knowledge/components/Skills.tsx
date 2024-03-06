@@ -47,7 +47,9 @@ const Skills = ({ toggle }: { toggle: UseBoolean }) => {
 
         <Item.Group divided className='w-full'>
           {data?.data.map((v, k) =>
-            <ItemKnowledge key={k} khowledge={v} onDelete={handlerOpenDelete} />
+            <ItemKnowledge key={k} khowledge={v} onDelete={handlerOpenDelete}
+            auth={auth}
+            />
           )}
         </Item.Group>
 

@@ -14,7 +14,7 @@ const ResumePage = () => {
 
     const { run, status, data, error, setData } = useFetch<Resume>();
 
-const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const auth = useAuthContext();
 
@@ -41,8 +41,10 @@ const navigate = useNavigate();
 
             }
             <div className="flex justify-center w-full" >
-                <Button onClick={()=> navigate('/config/resume')}>
-                <Icon name="edit" ></Icon></Button></div>
+                {auth?.isAuthenticated() && (
+                    <Button onClick={() => navigate('/config/resume')}>
+                        <Icon name="edit" ></Icon></Button>)}
+            </div>
 
         </Container>
 

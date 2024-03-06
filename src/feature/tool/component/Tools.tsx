@@ -11,6 +11,7 @@ import { Tool } from "../tool";
 import { add_query } from '../../../utils/QueryParams';
 import FullLoading from '../../../shared/FullLoading';
 import { Confirm } from "semantic-ui-react";
+import { useAuthContext } from "../../../context/AuthProvider";
 
 const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
@@ -20,6 +21,8 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
   const [queryParams, setQueryParams] = useSearchParams();
 
   const { toggle: toggleDelete, boolean } = useBoolean();
+
+  const auth = useAuthContext();
 
   const [idDelete, setIdDelete] = useState(0);
 
@@ -59,7 +62,7 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
       {
         // Alerta para confirmar eliminar herramienta 
-        (<Confirm open={boolean}
+        (<Confirm open={boolean} 
           onConfirm={() => handlerDelete(idDelete)}
           onCancel={toggleDelete}
         />)
@@ -67,6 +70,7 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
       {status == 'ok' && data!.data.map((v, k) => (
         <ToolCard key={k} tool={v}
+          auth={auth}
           onClickDelete={handlerOpenDelete}
           onClickEdit={handlerOpenEdit} />
       )
