@@ -1,61 +1,59 @@
-import { Formik } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import { useContext } from 'react';
-import { Button, Form, FormGroup, Icon, Input } from 'semantic-ui-react';
-import * as Yup from 'yup';
+import { Button, FormGroup, Icon, Input, TextArea, Form as UIForm } from 'semantic-ui-react';
+
 import { modalContext } from '../../../context/ModalProvider';
+import { Message, contactSchema, messageDefault } from '../model/Message';
+import { sendMail } from '../service/contact.api';
 
 const FormContact = () => {
 
     const ctx = useContext(modalContext);
 
-    const contactSchema = Yup.object().shape({
-        name: Yup.string().min(4, 'this field must have as min 4 characteres'),
-        email: Yup.string().email('this must a email').required('this field is required'),
-        detai: Yup.string().min(5, 'this field must have as min 4 characteres')
-    });
+
 
     return (
-        <Formik
-            initialValues={{ name: '', email: '', message: '' }}
+        <Formik<Message>
+            initialValues={messageDefault()}
 
             validationSchema={contactSchema}
-            onSubmit={(values) => {
-                ctx?.setOpen(false)
-                alert(JSON.stringify(values))
-            }}
+            onSubmit={handlerSubmit}
         >
-            {({ errors, touched, isValidating, handleChange, values }) => (
+            {({ errors, isSubmitting, setFieldValue, values }) => (
 
-                <Form onSubmit={(values) => {
-                    console.log(values)
-                    ctx?.setOpen(false)
-                }}
-                    className='gap-2 flex flex-col'
+                <Form
+                    className='ui form'
                 >
-                    <FormGroup>
+                    <UIForm.Group>
+
                         <Input
                             iconPosition='left'
                             className='w-full'
-                            placeholder='Write your name'>
+                            
+                        >
                             <Icon name='user' />
-                            <input name='name' />
+                            <Field placeholder='Write your name' name='fullName' />
                         </Input>
                         <Input
                             iconPosition='left'
-                            className='w-full' placeholder='Email'>
+                            className='w-full' >
                             <Icon name='at' />
-                            <input name='email' />
+                            <Field placeholder='write your email' name='username' />
                         </Input>
-                    </FormGroup>
-                    <FormGroup>
-                        <textarea name="message" placeholder='write your message'></textarea>
-                    </FormGroup>
+                    </UIForm.Group>
+                    <UIForm.Group>
+                        <TextArea
+                            name="message"
+                            placeholder='write your message'
+                            onChange={(event) => setFieldValue('message', event.target.value)}
+                        />
+                    </UIForm.Group>
                     <FormGroup
-                    className='justify-end'>
-                        <Button primary type='submit'>
+                        className='justify-end'>
+                        <Button loading={isSubmitting} disabled={isSubmitting} primary type='submit'>
                             Save
                         </Button>
-                        <Button secondary type='submit'>
+                        <Button onClick={() => ctx?.setOpen(false)} secondary type='reset'>
                             Cancel
                         </Button>
                     </FormGroup>
@@ -65,9 +63,18 @@ const FormContact = () => {
         </Formik>
     )
 
-    function handlerSubmit(values: any) {
+    async function handlerSubmit(values: any) {
 
-        ctx?.setOpen(false)
+        try {
+
+            await sendMail(values);
+
+            ctx?.setOpen(false)
+
+        } catch (err) {
+
+        }
+
 
     }
 
