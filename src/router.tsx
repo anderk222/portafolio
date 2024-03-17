@@ -7,6 +7,7 @@ import TOOL_ROUTES from "./feature/tool/tool.routes";
 import RESUME_ROUTES from "./feature/resume/resume.routes";
 import { AUTH_ROUTES } from "./feature/auth/auth.routes";
 import { CONFIG_ROUTES } from "./feature/configuration/cofing.routes";
+import { SITE_ROUTES } from "./feature/site/site.routes";
 
 const router = createBrowserRouter([
   
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: 'config',
         children: CONFIG_ROUTES
+      },
+      {
+        path: 'site',
+        children: SITE_ROUTES
       }
     ],
     

@@ -1,6 +1,7 @@
 import { UserSave } from '../../../feature/user/model/user';
 import { env } from '../../../environments/var-environments';
 import { Auth, TokenResponse } from '../models/Auth';
+import { ChangePassword } from '../models/ChangePassword';
 
 const url = env.url + '/auth'
 
@@ -38,4 +39,21 @@ export async function register(body: UserSave) {
 
     return data;
 
+}
+
+export async function changePassword(body: ChangePassword) {
+
+    const res = await fetch(`${url}/changePassword`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify(body)
+    })
+
+
+    if(res.status !=200){
+        let data = await res.json();
+
+        throw new Error(data.message);
+
+    }
 }

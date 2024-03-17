@@ -24,6 +24,8 @@ const DropDownSideBar = () => {
         <Dropdown.Item onClick={() => navigate('/')} icon='user' text='Resume' />
         <ContactModal />
         {isAuthenticated && <Dropdown.Item onClick={() => navigate('/config')} icon='cog' text='Configuration' />}
+        
+        <Dropdown.Item onClick={() => navigate('/site/about')} icon='exclamation circle' text='About Site' />
 
         <Dropdown.Item onClick={() => {
           if (isAuthenticated) auth.logOut();

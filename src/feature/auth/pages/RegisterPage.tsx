@@ -1,7 +1,7 @@
 import { UserSave } from "../../../feature/user/model/user";
 import { Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
-import { Container, Divider, FormField, Form as UIform } from "semantic-ui-react";
+import { Container, Divider, Form as UIform } from "semantic-ui-react";
 import { register } from "../service/auth.api";
 
 const RegisterPage = () => {
@@ -66,8 +66,7 @@ const RegisterPage = () => {
 
   async function handlerSubmit(values: UserSave &{confirmPassword : string}){
 
-    console.log(values);
-    
+
     try{
 
       await register(values);
