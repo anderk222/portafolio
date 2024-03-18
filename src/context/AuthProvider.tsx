@@ -1,7 +1,9 @@
 import { Auth } from '../feature/auth/models/Auth';
 import { authenticate } from '../feature/auth/service/auth.api';
 import { childProps } from '../models';
-import { getRoles, isToken, removeRoles, removeToken, setToken, setRoles as storeRoles } from '../utils/session';
+import { getRoles, isToken, removeRoles
+    , removeToken, setToken, setRoles as storeRoles
+, resetSession } from '../utils/session';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const authContext = createContext<AuthCountext>({} as AuthCountext);
@@ -53,9 +55,7 @@ export function AuthProvider({ children }: childProps) {
 
     function logOut(){
 
-        removeToken();
-
-        removeRoles();
+       resetSession();
 
         setRoles([])
         setAuthenticated(()=>false)

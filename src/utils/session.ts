@@ -45,13 +45,6 @@ export function setRoles(token: TokenResponse) {
 
 }
 
-export function logOut() {
-
-    removeRoles();
-
-    removeToken();
-
-}
 
 export function hasRole(role: string) {
 
@@ -63,5 +56,15 @@ export function hasRoleGuard(role : string){
     
     if(!hasRole(role)) return redirect('/home');
     return null;
+
+}
+
+export function resetSession(){
+
+    removeRoles();
+
+    removeToken();
+
+
 
 }
