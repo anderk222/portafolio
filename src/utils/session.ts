@@ -29,7 +29,7 @@ export function isToken() {
 export function getRoles(): string[] {
 
 
-    return JSON.parse(localStorage.getItem('roles') || '[]');
+    return JSON.parse(localStorage.getItem('roles') || '"[]"');
 
 }
 
