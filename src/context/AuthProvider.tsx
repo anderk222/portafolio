@@ -1,7 +1,7 @@
 import { Auth } from '../feature/auth/models/Auth';
 import { authenticate } from '../feature/auth/service/auth.api';
 import { childProps } from '../models';
-import { isToken, removeToken, setToken } from '../utils/session';
+import { getRoles, isToken, removeRoles, removeToken, setToken, setRoles as storeRoles } from '../utils/session';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const authContext = createContext<AuthCountext>({} as AuthCountext);
@@ -10,9 +10,13 @@ export function AuthProvider({ children }: childProps) {
 
     const [authenticated, setAuthenticated] = useState(false);
 
+    const [ roles, setRoles ] = useState<string[]>([]);
+
     useEffect(()=>{
     
-        setAuthenticated(()=>isToken())
+        setAuthenticated(()=>isToken());
+
+        setRoles(getRoles());
 
     },[]);
     
@@ -23,7 +27,8 @@ export function AuthProvider({ children }: childProps) {
             logIn,
             isAuthenticated,
             logOut,
-            authenticated
+            authenticated,
+            hasRole
         }}
     >
         {children}
@@ -31,11 +36,12 @@ export function AuthProvider({ children }: childProps) {
 
     async function logIn(auth: Auth) {
 
-
             let data = await authenticate(auth);
 
             setToken(data);
-            setAuthenticated(()=>true)
+            storeRoles(data);
+            setAuthenticated(()=>true);
+            setRoles(()=>data.roles);
 
     }
 
@@ -49,10 +55,18 @@ export function AuthProvider({ children }: childProps) {
 
         removeToken();
 
+        removeRoles();
+
+        setRoles([])
         setAuthenticated(()=>false)
 
     }
 
+    function hasRole(role : string){
+
+        return roles.some((v)=>v===role);
+
+    }
 }
 
 export function useAuthContext() {
@@ -71,6 +85,7 @@ export type AuthCountext = {
     isAuthenticated: () => boolean,
     // session: { id: number },
     logOut: () => void,
-    authenticated: boolean
+    authenticated: boolean,
+    hasRole(role: string): boolean
 
 }

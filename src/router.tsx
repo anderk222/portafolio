@@ -8,6 +8,7 @@ import RESUME_ROUTES from "./feature/resume/resume.routes";
 import { AUTH_ROUTES } from "./feature/auth/auth.routes";
 import { CONFIG_ROUTES } from "./feature/configuration/cofing.routes";
 import { SITE_ROUTES } from "./feature/site/site.routes";
+import { hasRoleGuard } from "./utils/session";
 
 const router = createBrowserRouter([
   
@@ -30,7 +31,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'tool',
-        children: TOOL_ROUTES
+        children: TOOL_ROUTES,
+        loader: ()=>hasRoleGuard('ROLE_ADMIN')
       },
       {
         path: '',

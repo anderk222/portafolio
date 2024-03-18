@@ -12,6 +12,8 @@ const DropDownSideBar = () => {
 
   let isAuthenticated = auth.isAuthenticated();
 
+
+
   useEffect(()=>{},[auth])
 
   return (
@@ -20,7 +22,7 @@ const DropDownSideBar = () => {
         <Dropdown.Item onClick={() => navigate('/home')} icon='home' text='Home' />
         <Dropdown.Item onClick={() => navigate('/knowledge')} icon='book' text='khowledge' />
         <Dropdown.Item onClick={() => navigate('/proyect')} icon='bar' text='Proyects' />
-       {isAuthenticated && <Dropdown.Item onClick={() => navigate('/tool')} icon='wrench' text='Tools' />}
+       {isAuthenticated  && auth?.hasRole('ROLE_ADMIN') && <Dropdown.Item onClick={() => navigate('/tool')} icon='wrench' text='Tools' />}
         <Dropdown.Item onClick={() => navigate('/')} icon='user' text='Resume' />
         <ContactModal />
         {isAuthenticated && <Dropdown.Item onClick={() => navigate('/config')} icon='cog' text='Configuration' />}

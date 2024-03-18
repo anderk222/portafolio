@@ -7,6 +7,8 @@ export type Auth = {
 
 export type TokenResponse={
 
+    username : string
     token : string
+    roles : string[]
 
 }
