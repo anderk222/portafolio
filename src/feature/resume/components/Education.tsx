@@ -16,7 +16,7 @@ const Education = ({ education }: props) => {
                     <p className="text-neutral-800" >{data.istName}</p>
                     <p className="text-xs text-end " >
                         {data.startDate.toString()}-{data.endDate?.toString() || 'Actualmente'}</p>
-                    <Divider inverted />
+                    {/* <Divider inverted /> */}
                 </article>
             ))}
 

@@ -34,7 +34,9 @@ const ResumePage = () => {
                 <>
                     <AboutHeader {...{ user: data!.user, profile: data!.profile }} />
                     <Education education={data!.education} />
+                    <Divider inverted /> 
                     <Experience experience={data!.experiences} />
+                    <Divider inverted /> 
                     <Skills skills={data!.skills} />
                 </>
             )
