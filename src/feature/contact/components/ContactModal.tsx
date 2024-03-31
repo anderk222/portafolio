@@ -1,5 +1,5 @@
-import React, { useContext} from 'react'
-import { Button, Dropdown, Header, Icon, Modal } from 'semantic-ui-react'
+import { useContext} from 'react'
+import { Dropdown, Header, Icon, Modal } from 'semantic-ui-react'
 import { modalContext } from '../../../context/ModalProvider';
 import FormContact from './FormContact';
 

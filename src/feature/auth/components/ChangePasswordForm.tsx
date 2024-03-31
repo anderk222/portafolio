@@ -1,12 +1,12 @@
 import { Field, Formik, Form } from "formik";
-import { ChangePassword, changePasswordDefault, changePaswordSchema } from "../models/ChangePassword";
+import { ChangePassword, changePasswordDefault, changePaswordSchema, changePaswordSchemaAdmin } from "../models/ChangePassword";
 import { Form as UIForm } from "semantic-ui-react";
-import { changePassword } from "../service/auth.api";
+import { changeOwnPassword, changePassword } from "../service/auth.api";
 import { useAuthContext } from "../../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({ admin, userId, onSaved }: props) {
 
     const auth = useAuthContext();
 
@@ -14,39 +14,44 @@ export default function ChangePasswordForm() {
 
     return (
         <Formik<ChangePassword>
-
-            initialValues={changePasswordDefault()}
+        
+            initialValues={changePasswordDefault(admin)}
             onSubmit={handlerSubmit}
-            validationSchema={changePaswordSchema}
+            validationSchema={admin ? changePaswordSchemaAdmin : changePaswordSchema}
         >
 
             {({ isSubmitting, errors, touched }) =>
                 <Form className="ui form" >
-
-                    <UIForm.Field required >
-                        <label>Password</label>
-                        <Field name="oldPassword" placeholder='Write the old password' />
-                        {touched.oldPassword && typeof errors.oldPassword == 'string' &&
-                            (<p className='text-red-500 text-xs' > {errors.oldPassword}</p>)
-                        }
-                    </UIForm.Field>
+                    {!admin &&
+                        <UIForm.Field required >
+                            <label>Password</label>
+                            <Field autoComplete='false' name="oldPassword" placeholder='Write the old password' type='password' />
+                            {touched.oldPassword && typeof errors.oldPassword == 'string' &&
+                                (<p className='text-red-500 text-xs' > {errors.oldPassword}</p>)
+                            }
+                        </UIForm.Field>
+                    }
                     <UIForm.Field required >
                         <label>New Password</label>
-                        <Field name="newPassword" placeholder='Write your new password' />
+                        <Field autoComplete='false' name="newPassword" placeholder='Write your new password' type='password' />
                         {touched.newPassword && typeof errors.newPassword == 'string' &&
                             (<p className='text-red-500 text-xs' > {errors.newPassword}</p>)
                         }
                     </UIForm.Field>
-
-                    <UIForm.Field required >
-                        <label>Confirm Password</label>
-                        <Field name="confirmPassword" placeholder='Write your new password' />
-                        {touched.confirmPassword && typeof errors.confirmPassword == 'string' &&
-                            (<p className='text-red-500 text-xs' > {errors.confirmPassword}</p>)
-                        }
-                    </UIForm.Field>
+                    {!admin &&
+                        <UIForm.Field required >
+                            <label>Confirm Password</label>
+                            <Field autoComplete='false' name="confirmPassword" placeholder='Write your new password' type='password' />
+                            {touched.confirmPassword && typeof errors.confirmPassword == 'string' &&
+                                (<p className='text-red-500 text-xs' > {errors.confirmPassword}</p>)
+                            }
+                        </UIForm.Field>
+                    }
                     <UIForm.Group>
-                        <UIForm.Button disabled={isSubmitting} loading={isSubmitting} color="green" >Save</UIForm.Button>
+                        <UIForm.Button
+                            disabled={isSubmitting} loading={isSubmitting} color="green" >
+                            Save
+                        </UIForm.Button>
                         <UIForm.Button type="reset" color="black" >Reset</UIForm.Button>
 
                     </UIForm.Group>
@@ -62,15 +67,32 @@ export default function ChangePasswordForm() {
 
         try {
 
-            await changePassword(data);
+            if (!admin) {
 
-            auth.logOut();
+                await changeOwnPassword(data);
 
-            navigate('/auth');
+                auth.logOut();
 
+                navigate('/auth');
 
+            }
+            else {
+
+                await changePassword({ ...data, userId: userId || 0 })
+
+            }
         } catch (err) { }
 
+        if (onSaved) onSaved();
+
     }
+
+}
+
+type props = {
+
+    admin?: boolean;
+    userId?: number;
+    onSaved?: () => void
 
 }

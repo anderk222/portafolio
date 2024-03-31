@@ -14,20 +14,23 @@ const DropDownSideBar = () => {
 
 
 
-  useEffect(()=>{},[auth])
+  useEffect(() => { }, [auth])
 
   return (
     <Dropdown text='Main'>
       <Dropdown.Menu>
         <Dropdown.Item onClick={() => navigate('/home')} icon='home' text='Home' />
         <Dropdown.Item onClick={() => navigate('/knowledge')} icon='book' text='khowledge' />
-        <Dropdown.Item onClick={() => navigate('/proyect')} icon='bar' text='Proyects' />
-       {isAuthenticated  && auth?.hasRole('ROLE_ADMIN') && <Dropdown.Item onClick={() => navigate('/tool')} icon='wrench' text='Tools' />}
+        <Dropdown.Item onClick={() => navigate('/project')} icon='bar' text='Projects' />
         <Dropdown.Item onClick={() => navigate('/')} icon='user' text='Resume' />
         <ContactModal />
+
+        {isAuthenticated && auth?.hasRole('ROLE_ADMIN') &&
+          <Dropdown.Item onClick={() => navigate('/admin')} icon='sitemap' text='Administrate' />}
         {isAuthenticated && <Dropdown.Item onClick={() => navigate('/config')} icon='cog' text='Configuration' />}
-        
+
         <Dropdown.Item onClick={() => navigate('/site/about')} icon='exclamation circle' text='About Site' />
+
 
         <Dropdown.Item onClick={() => {
           if (isAuthenticated) auth.logOut();
@@ -35,6 +38,8 @@ const DropDownSideBar = () => {
 
         }} icon='key'
           text={isAuthenticated ? 'Log out' : 'Login'} />
+
+
 
       </Dropdown.Menu>
     </Dropdown>
