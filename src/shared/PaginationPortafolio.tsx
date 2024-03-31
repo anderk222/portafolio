@@ -29,12 +29,18 @@ const PaginationPortafolio = ({pages} : { pages? : number }) => {
 
   function onChange(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, p: PaginationProps) {
 
-    let page = p.activePage || 0;
+    let page = 0;
+
+    if(typeof p.activePage === 'string') {
+
+      page = parseInt(p.activePage);
+
+    }else if (typeof p.activePage === 'number') page = p.activePage;
 
     setQueryParams(add_query(
       queryParams,
       {
-        page: page.toString()
+        page: (page-1).toString()
       } 
     ));
 

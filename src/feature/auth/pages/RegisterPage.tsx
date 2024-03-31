@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { Container, Divider, Form as UIform } from "semantic-ui-react";
 import { register } from "../service/auth.api";
+import { Register } from "../../user/model/register";
 
 const RegisterPage = () => {
 
@@ -13,7 +14,7 @@ const RegisterPage = () => {
         <h1 className="text-xl text-center" >Registro</h1>
         <p className="text-center" >Hola, Bienvenido ✌️</p>
         <Divider />
-        <Formik<UserSave &{confirmPassword : string}>
+        <Formik<Register &{confirmPassword : string}>
           initialValues={{
             name:'',
             mail: '',
@@ -41,11 +42,11 @@ const RegisterPage = () => {
 
               <UIform.Field required >
                 <label>Password</label>
-                <Field name="password" placeholder='Password' />
+                <Field name="password" placeholder='Password' type='password' />
               </UIform.Field>
               <UIform.Field required >
                 <label>Confirm password</label>
-                <Field name="confirmPassword" placeholder='Corfirm password' />
+                <Field name="confirmPassword" placeholder='Corfirm password' type='password' />
               </UIform.Field>
 
               <UIform.Field required >
@@ -64,7 +65,7 @@ const RegisterPage = () => {
     </div>
   );
 
-  async function handlerSubmit(values: UserSave &{confirmPassword : string}){
+  async function handlerSubmit(values: Register &{confirmPassword : string}){
 
 
     try{

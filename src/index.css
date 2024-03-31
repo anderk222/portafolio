@@ -6,3 +6,34 @@
 .no-border {
     border : none;
 }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .tooltip::before {
+    content: attr(aria-label);
+    position: absolute;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    left: 35px;
+    width: max-content;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 100;
+  }
+  
+  .tooltip:hover::before {
+    visibility: visible;
+    opacity: 1;
+  }
+  

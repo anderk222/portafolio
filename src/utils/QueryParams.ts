@@ -27,4 +27,4 @@ export function remove_query(state: URLSearchParams, queries: name_queries | nam
 
 export type NewQueryParams = { [key in name_queries]?: string }
 
-type name_queries = 'page' | 'count' | 'current' | 'name' | 'category' | 'tool';
+type name_queries = 'page' | 'count' | 'current' | 'name' | 'category' | 'tool' | 'email';

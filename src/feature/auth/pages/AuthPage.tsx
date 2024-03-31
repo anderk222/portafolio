@@ -32,7 +32,7 @@ const AuthPage = () => {
               </UIform.Field>
             <UIform.Field required >
               <label>Password</label>
-              <Field name="password" placeholder='Password' />
+              <Field name="password" placeholder='Password' type="password" />
             </UIform.Field>
 
             <Link className="underline hover:underline" to={'register'}>Doesn't have account yet?</Link>

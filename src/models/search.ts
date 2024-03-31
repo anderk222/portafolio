@@ -1,5 +1,6 @@
 export type SearchArgs = {
     name :  string,
-    category : number
+    category? : number
+    email?: string
 }
 

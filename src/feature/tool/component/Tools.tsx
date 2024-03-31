@@ -15,7 +15,6 @@ import { useAuthContext } from "../../../context/AuthProvider";
 
 const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
-
   const { run, status, data, error, setData } = useFetch<Pagination<Tool>>((() => getTools('')))
 
   const [queryParams, setQueryParams] = useSearchParams();
