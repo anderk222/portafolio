@@ -42,7 +42,7 @@ const FormSearch = () => {
   function onSubmit(values : SearchArgs, _ : any){
 
 
-    setQuerys(add_query(querys, { name : values.name, category : values.category.toString() }))
+    setQuerys(add_query(querys, { name : values.name, category : values.category!.toString() }))
 
   }
 };
