@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 
-export function useSnack(){
+export function useSnack() {
 
 
-    const [ state, setState ] = useState({text: 'Cargando', open : false  });
+    const [state, setState] = useState({ text: 'Cargando', open: false });
 
-    useEffect(()=>{}, [state]);
+    useEffect(() => { }, [state]);
 
 
     return {
         state,
         setState,
         onErrorSnack,
+        onSuccessSnack,
         onLoadSnack,
-        open : state.open,
+        open: state.open,
         message: state.text,
         closeSnack
     };
 
-    function onErrorSnack(message: string, time=3000){
+    function onErrorSnack(message: string, time = 3000) {
 
-        setState((state)=>{
+        setState((state) => {
             return {
                 open: true,
                 text: message
@@ -31,9 +32,22 @@ export function useSnack(){
 
     }
 
-    function onLoadSnack(){
+    function onSuccessSnack(message: string) {
 
-        setState((state)=>{
+        setState(() => {
+            return {
+                open: true,
+                text: message
+            }
+        });
+
+        setTimeout(closeSnack, 3000);
+
+    }
+
+    function onLoadSnack() {
+
+        setState((state) => {
             return {
                 open: true,
                 text: 'Loading...'
@@ -41,14 +55,11 @@ export function useSnack(){
         });
     }
 
-    function closeSnack(){
-        setState(function(state){
+    function closeSnack() {
+        setState(function (state) {
 
-            return {...state,open:false}
+            return { ...state, open: false }
 
         })
     }
-    
-
-
 }
