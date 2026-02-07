@@ -33,8 +33,10 @@ const DropDownSideBar = () => {
 
 
         <Dropdown.Item onClick={() => {
-          if (isAuthenticated) auth.logOut();
-          else navigate('/auth')
+          if (isAuthenticated) {
+            auth.logOut();
+            window.location.href = '/home';
+          } else navigate('/auth')
 
         }} icon='key'
           text={isAuthenticated ? 'Log out' : 'Login'} />
