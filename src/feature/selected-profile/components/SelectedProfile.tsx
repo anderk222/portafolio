@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { SelectedProfile as SelectedProfileType } from "../model/SelectedUser";
 import { getActiveProfile } from "../service/select-profile.api";
+import { env } from "../../../environments/var-environments";
 
 
 function SelectedProfile({profile} :props){
@@ -27,7 +28,7 @@ function SelectedProfile({profile} :props){
 
         <ItemGroup>
         { status==='ok' && <Item>
-            <ItemImage size='tiny' src='https://react.semantic-ui.com/images/avatar/small/joe.jpg' />
+            <ItemImage size='tiny' src={data?.img || env.fallback_prof_img} />
             <ItemContent>
                 <ItemHeader>{data?.name}</ItemHeader>
                 <ItemMeta>

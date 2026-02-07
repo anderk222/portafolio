@@ -8,5 +8,6 @@ export type SelectedProfile = {
     userId: number
     mail : string
     name: string
+    img: string
 
 }
