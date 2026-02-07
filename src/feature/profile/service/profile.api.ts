@@ -127,5 +127,17 @@ export function getProfiles(params : string) {
 export function searchProfiles(params : string){
 
     return fetch(url + `/buscarDefault?${params}`, { headers });
-    
+
+}
+
+export function getAvatarDefault() {
+
+    return fetch(`${url}/avatarDefault`, { headers });
+
+}
+
+export function getAvatarPorToken() {
+
+    return fetch(`${url}/avatarPorToken`, { headers });
+
 }
