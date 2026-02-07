@@ -1,57 +1,84 @@
 import { Formik, Form, Field } from 'formik'
-import { useContext } from 'react';
-import { Button, FormGroup, Icon, Input, TextArea, Form as UIForm } from 'semantic-ui-react';
+import { useContext, useState } from 'react';
+import { Button, FormGroup, Icon, Input, Message, TextArea, Form as UIForm } from 'semantic-ui-react';
 
 import { modalContext } from '../../../context/ModalProvider';
-import { Message, contactSchema, messageDefault } from '../model/Message';
+import { type Message as ContactMessage, contactSchema, messageDefault } from '../model/Message';
 import { sendMail } from '../service/contact.api';
 
 const FormContact = () => {
 
     const ctx = useContext(modalContext);
-
-
+    const [apiError, setApiError] = useState<string | null>(null);
 
     return (
-        <Formik<Message>
+        <Formik<ContactMessage>
             initialValues={messageDefault()}
-
             validationSchema={contactSchema}
             onSubmit={handlerSubmit}
         >
-            {({ errors, isSubmitting, setFieldValue, values }) => (
+            {({ errors, touched, isSubmitting, setFieldValue, setFieldTouched }) => (
 
-                <Form
-                    className='ui form'
-                >
+                <Form className='ui form' noValidate>
                     <UIForm.Group>
-
-                        <Input
-                            iconPosition='left'
-                            className='w-full'
-                            
-                        >
-                            <Icon name='user' />
-                            <Field placeholder='Write your name' name='fullName' />
-                        </Input>
-                        <Input
-                            iconPosition='left'
-                            className='w-full' >
-                            <Icon name='at' />
-                            <Field placeholder='write your email' name='username' />
-                        </Input>
+                        <UIForm.Field className='w-full'>
+                            <Input
+                                iconPosition='left'
+                                className='w-full'
+                            >
+                                <Icon name='user' aria-hidden="true" />
+                                <Field
+                                    placeholder='Write your name…'
+                                    name='fullName'
+                                    aria-label='Full name'
+                                    autoComplete='name'
+                                />
+                            </Input>
+                            {touched.fullName && typeof errors.fullName == 'string' &&
+                              (<p className='text-red-500 text-xs' > {errors.fullName}</p>)
+                            }
+                        </UIForm.Field>
+                        <UIForm.Field className='w-full'>
+                            <Input
+                                iconPosition='left'
+                                className='w-full'
+                            >
+                                <Icon name='at' aria-hidden="true" />
+                                <Field
+                                    placeholder='Write your email…'
+                                    name='username'
+                                    type='email'
+                                    autoComplete='email'
+                                    aria-label='Email'
+                                />
+                            </Input>
+                            {touched.username && typeof errors.username == 'string' &&
+                              (<p className='text-red-500 text-xs' > {errors.username}</p>)
+                            }
+                        </UIForm.Field>
                     </UIForm.Group>
                     <UIForm.Group>
-                        <TextArea
-                            name="message"
-                            placeholder='write your message'
-                            onChange={(event) => setFieldValue('message', event.target.value)}
-                        />
+                        <UIForm.Field className='w-full'>
+                            <TextArea
+                                name="message"
+                                placeholder='Write your message…'
+                                aria-label='Message'
+                                onChange={(event) => setFieldValue('message', event.target.value)}
+                                onBlur={() => setFieldTouched('message', true)}
+                            />
+                            {touched.message && typeof errors.message == 'string' &&
+                              (<p className='text-red-500 text-xs' > {errors.message}</p>)
+                            }
+                        </UIForm.Field>
                     </UIForm.Group>
-                    <FormGroup
-                        className='justify-end'>
+                    {apiError && (
+                        <Message negative>
+                            <p>{apiError}</p>
+                        </Message>
+                    )}
+                    <FormGroup className='justify-end'>
                         <Button loading={isSubmitting} disabled={isSubmitting} primary type='submit'>
-                            Save
+                            Send
                         </Button>
                         <Button onClick={() => ctx?.setOpen(false)} secondary type='reset'>
                             Cancel
@@ -63,21 +90,17 @@ const FormContact = () => {
         </Formik>
     )
 
-    async function handlerSubmit(values: any) {
+    async function handlerSubmit(values: ContactMessage) {
 
         try {
-
+            setApiError(null);
             await sendMail(values);
-
-            ctx?.setOpen(false)
-
+            ctx?.setOpen(false);
         } catch (err) {
-
+            setApiError('Failed to send message. Please try again.');
         }
 
-
     }
-
 
 }
 
