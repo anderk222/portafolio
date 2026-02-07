@@ -117,6 +117,19 @@ export function getProjectsByToken(params : string) {
 
 }
 
+export async function deleteProjectByToken(id : number) {
+
+    const res = await fetch(url+`/eliminarPorToken/${id}`, {
+        headers,
+        method: 'DELETE',
+    })
+ 
+    if (res.status != 200){ 
+        let data = await res.json();
+        throw new Error(data.message)
+    };
+ }
+
 export function getProjectsDefault(params : string) {
 
 
