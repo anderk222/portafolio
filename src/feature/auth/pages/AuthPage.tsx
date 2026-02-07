@@ -26,7 +26,7 @@ const AuthPage = () => {
       >
         {({ values, errors, setValues, setFieldValue, isSubmitting }) => (
           <Form className="ui form w-96" >
-            <UIform.Field>
+            <UIform.Field required>
                 <label>Email</label>
                 <Field placeholder="Email" name="name" />
               </UIform.Field>
