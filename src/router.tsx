@@ -38,6 +38,10 @@ const router = createBrowserRouter([
         children: RESUME_ROUTES
       },
       {
+        path: ':id',
+        children: RESUME_ROUTES
+      },
+      {
         path: 'config',
         children: CONFIG_ROUTES
       },

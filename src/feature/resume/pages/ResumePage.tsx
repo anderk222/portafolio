@@ -24,7 +24,7 @@ const ResumePage = () => {
 
         obtenerResumen();
 
-    }, []);
+    }, [auth, id]);
 
 
     return (
