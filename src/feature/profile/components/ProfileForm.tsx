@@ -4,6 +4,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { useEffect } from "react";
 import { getProfilesByToken, saveProfileByToken, updateProfileByToken } from "../service/profile.api";
 import { Button, Image, Form as UIForm } from "semantic-ui-react";
+import { env } from "../../../environments/var-environments";
 
 const ProfileForm = () => {
 
@@ -30,7 +31,7 @@ const ProfileForm = () => {
                 <Form className="ui form">
 
                     <div className="flex gap-2 flex-col" >
-                        <Image size="medium" src="https://react.semantic-ui.com/images/wireframe/image.png" />
+                        <Image size="medium" src={values?.img || env.fallback_prof_img} />
                         <Button type="button" icon labelPosition='left' size="medium">
                             Update Image
                         </Button>

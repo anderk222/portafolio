@@ -1,3 +1,5 @@
+import { env } from "../../../environments/var-environments";
+
 export interface Profile {
     id:       number;
     position: string;
@@ -11,7 +13,7 @@ export function profileDefault(): Profile{
         id: 0,
         position:'',
         detail: '',
-        img:''
+        img: env.fallback_prof_img
     }
 
 } 
