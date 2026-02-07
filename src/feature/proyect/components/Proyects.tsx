@@ -9,7 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import { Project, empty } from "../model/project";
 import { Pagination } from "../../../models";
 import { useFetch } from "../../../hooks/useFetch";
-import { deleteProject, getProjectsByToken, getProjectsDefault, searchProjectsByToken, searchProjectsDefault } from "../service/project.api";
+import { deleteProjectByToken, getProjectsByToken, getProjectsDefault, searchProjectsByToken, searchProjectsDefault } from "../service/project.api";
 import { Confirm } from "semantic-ui-react";
 
 const Proyects = () => {
@@ -103,7 +103,7 @@ const Proyects = () => {
 
   async function handlerDelete(id : number){
 
-    await deleteProject(id);
+    await deleteProjectByToken(id);
 
     setData({ ...data!, data: data!.data.filter(v => v.id != id) });
 
