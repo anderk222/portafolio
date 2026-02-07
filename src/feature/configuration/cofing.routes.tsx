@@ -5,34 +5,39 @@ import ExperienceFormPage from "../resume/pages/ExperienceFormPage";
 import ProfileFormPage from "../resume/pages/ProfileFormPage";
 import EducationFormPage from "../resume/pages/EducationFormPage";
 import PasswordPage from "./pages/PasswordPage";
+import HomeTextFormPage from "./pages/HomeTextFormPage";
 
-export const CONFIG_ROUTES :RouteObject[] =[
+export const CONFIG_ROUTES: RouteObject[] = [
 
-    { 
+    {
         path: '',
-        element: <ConfigPage/>,
+        element: <ConfigPage />,
     },
     {
         path: 'password',
-        element: <PasswordPage/>
+        element: <PasswordPage />
     },
     {
-        path : 'resume',
-        children:[
+        path: 'home-text',
+        element: <HomeTextFormPage />
+    },
+    {
+        path: 'resume',
+        children: [
             {
                 path: '',
-                element: <ResumeAdmiPage/>
+                element: <ResumeAdmiPage />
             },
             {
-                path:'experience',
-                element : <ExperienceFormPage/>
+                path: 'experience',
+                element: <ExperienceFormPage />
             },
             {
                 path: 'profile',
                 element: <ProfileFormPage />
             },
             {
-                path:'education',
+                path: 'education',
                 element: <EducationFormPage />
             }
         ]

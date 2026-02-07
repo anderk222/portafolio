@@ -12,6 +12,16 @@ const ConfigPage = () => {
             </Header>
             <List divided size="medium" relaxed>
 
+                <ListItem as={'a'} onClick={() => navigate('home-text')} >
+                    <Image avatar src='https://cdn-icons-png.flaticon.com/128/1946/1946436.png' />
+                    <ListContent>
+                        <ListHeader as='b' >Home Text</ListHeader>
+                        <ListDescription>
+                            Edit your welcome message on the home page
+                        </ListDescription>
+                    </ListContent>
+                </ListItem>
+
                 <ListItem as={'a'} onClick={() => navigate('resume')} >
                     <Image avatar src='https://cdn-icons-png.flaticon.com/128/9772/9772462.png' />
                     <ListContent>
