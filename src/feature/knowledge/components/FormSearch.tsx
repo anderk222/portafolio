@@ -5,6 +5,7 @@ import { Button, Form as UIForm } from 'semantic-ui-react'
 import { SearchArgs } from '../../../models';
 import { add_query } from '../../../utils/QueryParams';
 import SelectCategory from '../../../shared/SelectCategory';
+import { Category } from '../../category/model/category';
 
 const FormSearch = () => {
 
@@ -16,7 +17,9 @@ const FormSearch = () => {
     <Formik
       initialValues={{
         name: '',
-        category: 0
+        category: {
+          id: 0        
+        } as Category
       }}
       onSubmit={onSubmit}
     >
@@ -37,9 +40,7 @@ const FormSearch = () => {
   );
 
   function onSubmit(values: SearchArgs, _: any) {
-
-    setQuerys(add_query(querys, { name: values.name, category: values.category!.toString() }))
-
+    setQuerys(add_query(querys, { name: values.name, category: values?.category?.id?.toString() }))
   }
 }
 

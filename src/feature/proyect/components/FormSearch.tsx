@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Button, Form as UIForm } from 'semantic-ui-react'
 import SelectTool from '../../../shared/SelectTool';
 import { add_query } from '../../../utils/QueryParams';
+import { Tool } from '../../tool/tool';
 
 
 const FormSearch = () => {
@@ -18,7 +19,9 @@ const FormSearch = () => {
     <Formik<SearchArgs>
     initialValues={{
       name: '',
-      tool: 0
+      tool: {
+        id: 0
+      } as Tool
     }}
     onSubmit={onSubmit}
   >
@@ -40,14 +43,14 @@ const FormSearch = () => {
 
   function onSubmit(values: SearchArgs, _: any) {
 
-    setQuerys(add_query(querys, { name: values.name, tool: values.tool.toString() }))
+    setQuerys(add_query(querys, { name: values.name, tool: values?.tool?.id?.toString() }))
 
   }
 }
 
 type SearchArgs ={
   name : string,
-  tool: number
+  tool: Tool
 }
 
 export default FormSearch;
