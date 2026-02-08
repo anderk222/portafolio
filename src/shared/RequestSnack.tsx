@@ -81,13 +81,4 @@ export const RequestSnack = () => {
             />
         </Box>
     );
-
-
-
-
-
-
-
-
-
 }
