@@ -11,7 +11,7 @@ import { Tool } from '../../tool/tool';
 const FormSearch = () => {
 
 
-  const [querys, setQuerys] = useSearchParams();
+  const [querys, setQuerys] = useSearchParams(); 
 
   useEffect(() => { }, [querys]);
 
