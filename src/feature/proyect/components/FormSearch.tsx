@@ -13,16 +13,21 @@ const FormSearch = () => {
 
   const [querys, setQuerys] = useSearchParams();
 
-  useEffect(() => { }, [querys]);
+  let initialValues = {
+    name: '',
+    tool: {
+      id: 0
+    } as Tool
+  };
+
+  useEffect(()=>{
+      initialValues.name = querys.get('name') || '';
+      initialValues.tool.id = parseInt(querys.get('tool') || '0');
+  }, []);
 
   return (
     <Formik<SearchArgs>
-    initialValues={{
-      name: '',
-      tool: {
-        id: 0
-      } as Tool
-    }}
+    initialValues={initialValues}
     onSubmit={onSubmit}
   >
     {({ setFieldValue }) => (

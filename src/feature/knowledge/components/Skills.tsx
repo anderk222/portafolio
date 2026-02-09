@@ -68,8 +68,20 @@ const Skills = ({ toggle }: { toggle: UseBoolean }) => {
 
     let isAuthenticated = auth.isAuthenticated();
 
+    let search: Record<string, any> = {
+      name: queryParams.get('name')
+    }
 
-    if (!queryParams.get('name') && !queryParams.get('category')){
+    let categoryId = parseInt(queryParams.get('category') || 'NaN');
+
+    let validCategoryId = !isNaN(categoryId) && categoryId > 0;
+
+
+    if(validCategoryId){
+      search.category=categoryId
+    }
+
+    if (!search.name && !validCategoryId){
 
       if(isAuthenticated) action = getKnowledgesByToken;
       else action = getKnowledges;
@@ -80,8 +92,7 @@ const Skills = ({ toggle }: { toggle: UseBoolean }) => {
       else action = searchKnowledges;
 
     }
-
-    run(() => action(queryParams.toString()))
+    run(() => action(new URLSearchParams(search).toString()))
   
   }
 

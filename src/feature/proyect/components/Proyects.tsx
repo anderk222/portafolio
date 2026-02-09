@@ -69,15 +69,25 @@ const Proyects = () => {
     </div>
   );
 
-
   function search() {
 
     let action: (query: string) => Promise<Response>;
 
     let isAuthenticated = auth.isAuthenticated();
 
+    let search : Record<string, any> = { 
+      name: queryParams.get('name')
+    };
 
-    if (!queryParams.get('name') && !queryParams.get('category')) {
+    let toolId = parseInt(queryParams.get('tool') || 'NaN');
+
+    let validToolId = !isNaN(toolId) && toolId > 0;
+
+    if(validToolId){
+      search.tool = toolId;
+    }
+
+    if (!search.name && !validToolId) {
 
       if (isAuthenticated) action = getProjectsByToken;
       else action = getProjectsDefault;
@@ -89,7 +99,7 @@ const Proyects = () => {
 
     }
 
-    run(() => action(queryParams.toString()))
+    run(() => action(new URLSearchParams(search).toString()))
 
   }
 

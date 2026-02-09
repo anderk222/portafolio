@@ -40,17 +40,8 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
 
   // Useffect para obtener datos de filtro y paginable
-  useEffect(() => {
-
-    let search = {
-      name: queryParams.get('name'),
-      category: queryParams.get('category')
-    }
-
-    if (!search.name && !search.category) run(() => getTools(queryParams.toString()))
-    else run(() => searchTools(queryParams.toString()));
-
-  }, [
+  useEffect(() => { search() }
+  ,[
     queryParams.get('page'),
     queryParams.get('name'),
     queryParams.get('category')
@@ -127,6 +118,28 @@ const Tools = ({ toggle }: { toggle: UseBoolean }) => {
 
     toggleDelete();
 
+  }
+
+  function search() {
+
+    let action: (query: string) => Promise<Response>;
+
+    let search : Record<string, any> = {
+      name: queryParams.get('name'),
+    }
+
+    let categoryId = parseInt(queryParams.get('category') || 'NaN');
+
+    let validCategoryId = !isNaN(categoryId) && categoryId > 0;
+
+    if(validCategoryId){
+      search.category = categoryId;
+    }
+
+    if (!search.name && !validCategoryId ) action = getTools
+    else action = searchTools;
+    
+    run(()=>action(new URLSearchParams(search).toString()));
   }
 
 }
