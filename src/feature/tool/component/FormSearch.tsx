@@ -11,16 +11,21 @@ const FormSearch = () => {
 
   const [ querys, setQuerys ] = useSearchParams();
 
-  useEffect(()=>{}, [querys]);
+  let initialValues = {
+    name: '',
+    category: {
+      id: 0        
+    } as Category
+  }
+
+  useEffect(()=>{
+    initialValues.name = querys.get('name') || '';
+    initialValues.category.id = parseInt(querys.get('category') || '0');
+  },[]);
 
   return (
     <Formik
-    initialValues={{
-      name:'',
-      category : {
-        id: 0
-      } as Category
-    }}
+    initialValues={initialValues}
     onSubmit={onSubmit}
     >
       {({setFieldValue})=>(
